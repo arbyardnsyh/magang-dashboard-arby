@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 
-import iconMenu     from "../../assets/icons/logo/icon-humberger.svg";
-import iconBell     from "../../assets/icons/logo/icon-bel.svg";
+import iconMenu     from "../../assets/icons/LOGO/icon-humberger.svg";
+import iconBell     from "../../assets/icons/LOGO/icon-bel.svg";
 import avatarSrc    from "../../assets/images/profile/profile-photo.svg";
-import iconSettings from "../../assets/icons/logo/icon-settings-fix.svg";
-import iconSearch   from "../../assets/icons/logo/search-icon.svg";
+import iconSettings from "../../assets/icons/LOGO/icon-settings-fix.svg";
+import iconSearch   from "../../assets/icons/LOGO/search-icon.svg";
 
 // ─── Konstanta Layout ────────────────────────────────────────────────────────
 const SIDEBAR_W = 250;
