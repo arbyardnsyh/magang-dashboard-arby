@@ -3,11 +3,10 @@ import { Outlet } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import Navbar from "./Navbar";
 
-// ─── Konstanta Layout ────────────────────────────────────────────────────────
-const SIDEBAR_W = 250;
-const NAVBAR_H  = 80;
+const SIDEBAR_W      = 250;
+const SIDEBAR_W_SLIM = 70;
+const NAVBAR_H       = 80;
 
-// ─── Responsive Styles ───────────────────────────────────────────────────────
 const responsiveStyles = `
   /* Desktop (≥ 1024px) */
   @media (min-width: 1024px) {
@@ -16,20 +15,25 @@ const responsiveStyles = `
     .layout-main      { padding: 20px 32px 48px 32px !important; }
   }
 
-  /* Tablet & Mobile (< 1024px) */
-  @media (max-width: 1023px) {
+  /* Tablet (768px–1023px) */
+  @media (min-width: 768px) and (max-width: 1023px) {
+  .layout-content { margin-left: 180px; }
+    .layout-searchbar { display: none !important; }
+    .layout-main      { padding: 20px 20px 48px 20px !important; }
+  }
+
+  /* Mobile (< 768px) */
+  @media (max-width: 767px) {
     .layout-content   { margin-left: 0 !important; }
     .layout-searchbar { display: flex !important; }
     .layout-main      { padding: 12px 16px 40px !important; }
   }
 
-  /* Mobile kecil (< 600px) */
   @media (max-width: 600px) {
     .layout-main { padding: 12px 12px 32px !important; }
   }
 `;
 
-// ─── Styles Inline ───────────────────────────────────────────────────────────
 const styles = {
   root: {
     minHeight:  "100vh",
@@ -38,10 +42,10 @@ const styles = {
   },
 
   contentWrapper: {
-    display:        "flex",
-    flexDirection:  "column",
-    minHeight:      "100vh",
-    transition:     "margin-left 0.3s ease",
+    display:       "flex",
+    flexDirection: "column",
+    minHeight:     "100vh",
+    transition:    "margin-left 0.3s ease",
   },
 
   main: {
@@ -69,43 +73,33 @@ const styles = {
   },
 
   searchInput: {
-    width:       "100%",
-    background:  "#FFFFFF",
-    borderRadius:"40px",
-    border:      "none",
-    outline:     "none",
-    paddingLeft: "44px",
-    paddingRight:"20px",
-    paddingTop:  "12px",
-    paddingBottom:"12px",
-    fontSize:    "14px",
-    color:       "#718EBF",
-    fontFamily:  "'Inter','Segoe UI',Arial,sans-serif",
-    boxSizing:   "border-box",
-    boxShadow:   "0 2px 8px rgba(0,0,0,0.05)",
+    width:         "100%",
+    background:    "#FFFFFF",
+    borderRadius:  "40px",
+    border:        "none",
+    outline:       "none",
+    paddingLeft:   "44px",
+    paddingRight:  "20px",
+    paddingTop:    "12px",
+    paddingBottom: "12px",
+    fontSize:      "14px",
+    color:         "#718EBF",
+    fontFamily:    "'Inter','Segoe UI',Arial,sans-serif",
+    boxSizing:     "border-box",
+    boxShadow:     "0 2px 8px rgba(0,0,0,0.05)",
   },
 };
 
-// ─── Sub-component: Search Bar Mobile ────────────────────────────────────────
 function MobileSearchBar({ value, onChange }) {
   return (
     <div className="layout-searchbar" style={styles.searchbarWrapper}>
       <div style={styles.searchInputContainer}>
-
-        {/* Ikon kaca pembesar */}
         <span style={styles.searchIcon}>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
             <circle cx="11" cy="11" r="7" stroke="#8BA3CB" strokeWidth="1.8" />
-            <path
-              d="M16.5 16.5L21 21"
-              stroke="#8BA3CB"
-              strokeWidth="1.8"
-              strokeLinecap="round"
-            />
+            <path d="M16.5 16.5L21 21" stroke="#8BA3CB" strokeWidth="1.8" strokeLinecap="round" />
           </svg>
         </span>
-
-        {/* Input pencarian */}
         <input
           type="text"
           value={value}
@@ -113,49 +107,33 @@ function MobileSearchBar({ value, onChange }) {
           placeholder="Search for something"
           style={styles.searchInput}
         />
-
       </div>
     </div>
   );
 }
 
-// ─── Komponen Utama: Layout ───────────────────────────────────────────────────
 export default function Layout() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [search,     setSearch]     = useState("");
 
-  // Handler
-  const handleMenuClick  = () => setMobileOpen(true);
+  const handleMenuClick    = () => setMobileOpen(true);
   const handleSidebarClose = () => setMobileOpen(false);
   const handleSearchChange = (e) => setSearch(e.target.value);
 
   return (
     <div style={styles.root}>
-
-      {/* Responsive styles (injected via <style>) */}
       <style>{responsiveStyles}</style>
 
-      {/* Sidebar — ditampilkan/disembunyikan lewat prop mobileOpen */}
       <Sidebar mobileOpen={mobileOpen} onClose={handleSidebarClose} />
 
-      {/* Area konten utama (navbar + main) */}
       <div className="layout-content" style={styles.contentWrapper}>
-
-        {/* Navbar tetap di atas */}
         <Navbar onMenuClick={handleMenuClick} />
 
-        {/* Main — margin-top mendorong konten di bawah navbar fixed */}
         <main className="layout-main" style={styles.main}>
-
-          {/* Search bar hanya tampil di mobile */}
           <MobileSearchBar value={search} onChange={handleSearchChange} />
-
-          {/* Render halaman aktif */}
           <Outlet />
-
         </main>
       </div>
-
     </div>
   );
 }

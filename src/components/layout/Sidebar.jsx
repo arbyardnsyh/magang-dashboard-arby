@@ -1,9 +1,7 @@
 import { NavLink } from "react-router-dom";
 
-//  ASET: Logo
 import logoIcon from "../../assets/icons/LOGO/Bankku-logo.svg";
 
-//  ASET: Icon navigasi sidebar
 import icDashboard   from "../../assets/sidebar/SIDEBAR NAV ICONS/icon-dashboard.svg";
 import icTransfer    from "../../assets/sidebar/SIDEBAR NAV ICONS/icon-transfer.svg";
 import icAccounts    from "../../assets/sidebar/SIDEBAR NAV ICONS/icon-accounts.svg";
@@ -14,14 +12,10 @@ import icServices    from "../../assets/sidebar/SIDEBAR NAV ICONS/icon-services.
 import icPrivileges  from "../../assets/sidebar/SIDEBAR NAV ICONS/icon-privileges.svg";
 import icSettings    from "../../assets/sidebar/SIDEBAR NAV ICONS/icon-settings.svg";
 
-//  KONFIGURASI
-/** Nama brand yang ditampilkan di samping logo. */
-const BRAND_NAME = "";
-
-/** Tinggi navbar (px), dipakai untuk menyelaraskan tinggi area logo di sidebar. */
+const BRAND_NAME    = "";
 const NAVBAR_HEIGHT = 80;
+const SIDEBAR_W_SLIM = 180;
 
-/** Daftar item navigasi beserta path, label, dan icon-nya. */
 const navItems = [
   { path: "/",           label: "Dashboard",     icon: icDashboard   },
   { path: "/transfer",   label: "Transactions",  icon: icTransfer    },
@@ -34,20 +28,20 @@ const navItems = [
   { path: "/settings",   label: "Setting",       icon: icSettings    },
 ];
 
-// ─────────────────────────────────────────────
-//  STYLES (inline & injected CSS)
-// ─────────────────────────────────────────────
-
-/** CSS yang di-inject ke <style> untuk handle responsivitas dan font kustom. */
 const injectedStyles = `
-  /* Desktop: sidebar selalu tampil */
+  /* Desktop (≥ 1024px): sidebar full */
   @media (min-width: 1024px) {
-    .sidebar-root { transform: translateX(0) !important; }
+    .sidebar-root { transform: translateX(0) !important; width: 250px !important; }
   }
 
-  /* Tablet & Mobile: sidebar tersembunyi, muncul saat class .open aktif */
-  @media (max-width: 1023px) {
-    .sidebar-root      { transform: translateX(-100%); }
+  /* Tablet (768px–1023px): sidebar ramping tapi tetap tampil penuh */
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .sidebar-root { transform: translateX(0) !important; width: 180px !important; }
+  }
+
+  /* Mobile (< 768px): sidebar tersembunyi */
+  @media (max-width: 767px) {
+    .sidebar-root      { transform: translateX(-100%); width: 250px !important; }
     .sidebar-root.open { transform: translateX(0); }
   }
 
@@ -77,13 +71,12 @@ const styles = {
     left: 0,
     top: 0,
     height: "100%",
-    width: "250px",
     background: "#FFFFFF",
     zIndex: 30,
     display: "flex",
     flexDirection: "column",
     borderRight: "1px solid #F0F4FB",
-    transition: "transform 0.3s ease",
+    transition: "transform 0.3s ease, width 0.3s ease",
     fontFamily: "'Inter','Segoe UI',Arial,sans-serif",
   },
 
@@ -168,10 +161,6 @@ const styles = {
   }),
 };
 
-// ─────────────────────────────────────────────
-//  KOMPONEN
-// ─────────────────────────────────────────────
-
 export default function Sidebar({ mobileOpen, onClose }) {
   return (
     <>
@@ -187,7 +176,7 @@ export default function Sidebar({ mobileOpen, onClose }) {
         <style>{injectedStyles}</style>
 
         {/* Area Logo */}
-        <div style={styles.logoWrapper(NAVBAR_HEIGHT)}>
+        <div className="sidebar-brand" style={styles.logoWrapper(NAVBAR_HEIGHT)}>
           <img
             src={logoIcon}
             alt="Logo"
@@ -210,11 +199,7 @@ export default function Sidebar({ mobileOpen, onClose }) {
             >
               {({ isActive }) => (
                 <div className="nav-item" style={styles.navItem}>
-
-                  {/* Indikator item aktif (garis biru di sisi kiri) */}
                   {isActive && <span style={styles.activeIndicator} />}
-
-                  {/* Icon menu */}
                   <img
                     src={icon}
                     alt=""
@@ -222,10 +207,9 @@ export default function Sidebar({ mobileOpen, onClose }) {
                     height={22}
                     style={styles.navIcon(isActive)}
                   />
-
-                  {/* Label menu */}
-                  <span style={styles.navLabel(isActive)}>{label}</span>
-
+                  <span className="sidebar-label" style={styles.navLabel(isActive)}>
+                    {label}
+                  </span>
                 </div>
               )}
             </NavLink>

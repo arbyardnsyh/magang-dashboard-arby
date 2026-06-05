@@ -7,11 +7,10 @@ import avatarSrc    from "../../assets/images/profile/profile-photo.svg";
 import iconSettings from "../../assets/icons/LOGO/icon-settings-fix.svg";
 import iconSearch   from "../../assets/icons/LOGO/search-icon.svg";
 
-// ─── Konstanta Layout ────────────────────────────────────────────────────────
-const SIDEBAR_W = 250;
-const NAVBAR_H  = 80;
+const SIDEBAR_W      = 250;
+const SIDEBAR_W_SLIM = 70;
+const NAVBAR_H       = 80;
 
-// ─── Mapping Judul Halaman ────────────────────────────────────────────────────
 const pageTitles = {
   "/":           "Overview",
   "/transfer":   "Transactions",
@@ -23,9 +22,6 @@ const pageTitles = {
   "/privileges": "My Privileges",
   "/settings":   "Setting",
 };
-
-// ─── Fallback SVG Icons ───────────────────────────────────────────────────────
-// Digunakan saat file aset gagal dimuat (error)
 
 const FbSearch = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
@@ -60,12 +56,10 @@ const FbMenu = () => (
   </svg>
 );
 
-// ─── Responsive Styles (diinjeksi via <style>) ────────────────────────────────
 const navbarStyles = `
   .navbar-root {
     position: fixed;
     top: 0;
-    left: ${SIDEBAR_W}px;
     right: 0;
     height: ${NAVBAR_H}px;
     background: #FFFFFF;
@@ -73,7 +67,6 @@ const navbarStyles = `
     z-index: 40;
     display: flex;
     align-items: center;
-    padding: 0 32px;
     gap: 16px;
     box-sizing: border-box;
     font-family: 'Inter','Segoe UI',Arial,sans-serif;
@@ -81,19 +74,29 @@ const navbarStyles = `
 
   /* Desktop (≥ 1024px) */
   @media (min-width: 1024px) {
+    .navbar-root       { left: ${SIDEBAR_W}px; padding: 0 32px; }
     .navbar-hamburger  { display: none !important; }
     .navbar-desktop    { display: flex !important; }
     .navbar-mob-avatar { display: none !important; }
-    .navbar-title      { text-align: left !important; }
+    .navbar-title      { text-align: left !important; position: static !important; transform: none !important; }
   }
 
-  /* Mobile & Tablet (< 1024px) */
-  @media (max-width: 1023px) {
-    .navbar-root       { left: 0 !important; padding: 0 16px !important; }
+  /* Tablet (768px–1023px) */
+  @media (min-width: 768px) and (max-width: 1023px) {
+  .navbar-root { left: 180px; padding: 0 20px; }
+    .navbar-hamburger  { display: none !important; }
+    .navbar-desktop    { display: flex !important; }
+    .navbar-mob-avatar { display: none !important; }
+    .navbar-title      { text-align: left !important; position: static !important; transform: none !important; }
+    .navbar-search     { width: 160px !important; }
+  }
+
+  /* Mobile (< 768px) */
+  @media (max-width: 767px) {
+    .navbar-root       { left: 0; padding: 0 16px; }
     .navbar-desktop    { display: none !important; }
     .navbar-hamburger  { display: flex !important; }
     .navbar-mob-avatar { display: flex !important; }
-    /* Judul rata tengah di mobile */
     .navbar-title {
       position: absolute !important;
       left: 50% !important;
@@ -104,29 +107,28 @@ const navbarStyles = `
   }
 `;
 
-// ─── Inline Styles ────────────────────────────────────────────────────────────
 const styles = {
   hamburgerBtn: {
-    display:         "none",
-    padding:         "8px",
-    background:      "none",
-    border:          "none",
-    cursor:          "pointer",
-    borderRadius:    "8px",
-    alignItems:      "center",
-    justifyContent:  "center",
-    flexShrink:      0,
-    zIndex:          1,
+    display:        "none",
+    padding:        "8px",
+    background:     "none",
+    border:         "none",
+    cursor:         "pointer",
+    borderRadius:   "8px",
+    alignItems:     "center",
+    justifyContent: "center",
+    flexShrink:     0,
+    zIndex:         1,
   },
 
   pageTitle: {
-    fontFamily:  "'Inter','Segoe UI',Arial,sans-serif",
-    fontWeight:  700,
-    fontSize:    "29px",
-    color:       "#343C6A",
-    margin:      0,
-    flex:        1,
-    lineHeight:  1,
+    fontFamily: "'Inter','Segoe UI',Arial,sans-serif",
+    fontWeight: 700,
+    fontSize:   "29px",
+    color:      "#343C6A",
+    margin:     0,
+    flex:       1,
+    lineHeight: 1,
   },
 
   desktopGroup: {
@@ -136,9 +138,9 @@ const styles = {
   },
 
   searchWrapper: {
-    position:    "relative",
-    display:     "flex",
-    alignItems:  "center",
+    position:   "relative",
+    display:    "flex",
+    alignItems: "center",
   },
 
   searchIconSpan: {
@@ -164,16 +166,16 @@ const styles = {
   },
 
   iconBtn: {
-    width:           44,
-    height:          44,
-    borderRadius:    "50%",
-    background:      "#F5F7FA",
-    border:          "none",
-    cursor:          "pointer",
-    display:         "flex",
-    alignItems:      "center",
-    justifyContent:  "center",
-    flexShrink:      0,
+    width:          44,
+    height:         44,
+    borderRadius:   "50%",
+    background:     "#F5F7FA",
+    border:         "none",
+    cursor:         "pointer",
+    display:        "flex",
+    alignItems:     "center",
+    justifyContent: "center",
+    flexShrink:     0,
   },
 
   avatarDesktop: {
@@ -198,19 +200,15 @@ const styles = {
   },
 
   avatarImg: {
-    width:      "100%",
-    height:     "100%",
-    objectFit:  "cover",
+    width:     "100%",
+    height:    "100%",
+    objectFit: "cover",
   },
 };
 
-// ─── Sub-component: NavIcon ───────────────────────────────────────────────────
-// Menampilkan ikon dari file aset; jika gagal, render SVG fallback
 function NavIcon({ src, Fallback, width = 20, height = 20, alt = "" }) {
   const [err, setErr] = useState(false);
-
   if (!src || err) return <Fallback />;
-
   return (
     <img
       src={src}
@@ -223,15 +221,12 @@ function NavIcon({ src, Fallback, width = 20, height = 20, alt = "" }) {
   );
 }
 
-// ─── Komponen Utama: Navbar ───────────────────────────────────────────────────
 export default function Navbar({ onMenuClick }) {
   const location = useLocation();
   const [search, setSearch] = useState("");
 
-  // Ambil judul halaman berdasarkan path aktif
   const title = pageTitles[location.pathname] || "Overview";
 
-  // Handler fallback avatar jika gambar gagal dimuat
   const handleAvatarError = (e) => {
     e.currentTarget.src     = "https://i.pravatar.cc/48?img=47";
     e.currentTarget.onerror = null;
@@ -239,12 +234,11 @@ export default function Navbar({ onMenuClick }) {
 
   return (
     <>
-      {/* Inject responsive CSS */}
       <style>{navbarStyles}</style>
 
-      <header className="navbar-root" style={{ position: "fixed" }}>
+      <header className="navbar-root">
 
-        {/* Tombol hamburger — hanya tampil di mobile */}
+        {/* Hamburger — mobile only */}
         <button
           className="navbar-hamburger"
           onClick={onMenuClick}
@@ -258,10 +252,8 @@ export default function Navbar({ onMenuClick }) {
           {title}
         </h1>
 
-        {/* Grup kanan — search, settings, bell, avatar (desktop only) */}
+        {/* Grup kanan — desktop & tablet */}
         <div className="navbar-desktop" style={styles.desktopGroup}>
-
-          {/* Search bar */}
           <div style={styles.searchWrapper}>
             <span style={styles.searchIconSpan}>
               <NavIcon src={iconSearch} Fallback={FbSearch} width={16} height={16} />
@@ -271,21 +263,19 @@ export default function Navbar({ onMenuClick }) {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search for something"
+              className="navbar-search"
               style={styles.searchInput}
             />
           </div>
 
-          {/* Tombol Settings */}
           <button style={styles.iconBtn}>
             <NavIcon src={iconSettings} Fallback={FbSettings} width={20} height={20} alt="settings" />
           </button>
 
-          {/* Tombol Bell / Notifikasi */}
           <button style={styles.iconBtn}>
             <NavIcon src={iconBell} Fallback={FbBell} width={20} height={20} alt="notifications" />
           </button>
 
-          {/* Avatar desktop */}
           <div style={styles.avatarDesktop}>
             <img
               src={avatarSrc}
@@ -294,10 +284,9 @@ export default function Navbar({ onMenuClick }) {
               onError={handleAvatarError}
             />
           </div>
-
         </div>
 
-        {/* Avatar pojok kanan — hanya tampil di mobile */}
+        {/* Avatar — mobile only */}
         <div className="navbar-mob-avatar" style={styles.avatarMobile}>
           <img
             src={avatarSrc}
