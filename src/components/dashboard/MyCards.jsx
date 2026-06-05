@@ -68,7 +68,7 @@ const styles = {
 
   metaValue: (dark) => ({
     fontSize: "14px",
-    fontWeight: 600,
+    fontWeight: 400,
     margin: 0,
     color: dark ? "#FFFFFF" : "#343C6A",
     fontFamily: "'Lato','Inter','Segoe UI',Arial,sans-serif",
