@@ -34,7 +34,7 @@ const styles = {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%) scale(1.05)",
-    width: "100%",
+    width: "96%",
     height: "105%",
     objectFit: "fill",
   },
