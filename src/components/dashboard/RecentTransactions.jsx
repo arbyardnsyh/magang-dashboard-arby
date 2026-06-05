@@ -6,8 +6,33 @@ import icPaypal from "../../assets/icons/transactions/icon-paypal.svg";
 import icUser   from "../../assets/icons/transactions/icon-user.svg";
 
 // ─── Konstanta Layout ─────────────────────────────────────────────────────────
-// Harus sama dengan CARD_H di MyCards agar tinggi panel selaras
+// Tinggi panel desktop diselaraskan dengan tinggi card MyCards
 const PANEL_H = 195;
+
+// ─── Responsive Styles ───────────────────────────────────────────────────────
+const injectedStyles = `
+  .recent-tx-panel {
+    background: #FFFFFF;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    height: ${PANEL_H}px;
+    box-sizing: border-box;
+    padding: 12px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+  }
+
+  /* ── Mobile: tinggi auto, lebar mengikuti kolom ── */
+  @media (max-width: 680px) {
+    .recent-tx-panel {
+      height: auto !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+    }
+  }
+`;
 
 // ─── Data Statis Riwayat Transaksi ────────────────────────────────────────────
 const transactions = [
@@ -66,6 +91,8 @@ export default function RecentTransactions() {
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
 
+      <style>{injectedStyles}</style>
+
       {/* Judul Section — tinggi diselaraskan dengan header MyCards */}
       <h2 style={{
         fontFamily: "Inter, sans-serif", fontWeight: 700,
@@ -75,25 +102,15 @@ export default function RecentTransactions() {
         Recent Transaction
       </h2>
 
-      {/* Panel Daftar Transaksi — tinggi tetap = PANEL_H */}
-      <div style={{
-        background: "#FFFFFF",
-        borderRadius: "20px",
-        boxShadow: "0 4px 20px rgba(0,0,0,0.05)",
-        height: `${PANEL_H}px`,
-        boxSizing: "border-box",
-        padding: "12px 20px",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",  /* ruang terbagi rata antar 3 item */
-        overflow: "hidden",
-      }}>
+      {/* Panel Daftar Transaksi */}
+      <div className="recent-tx-panel">
         {transactions.map((tx, i) => (
           <div key={tx.id} style={{
             display: "flex",
             alignItems: "center",
             gap: "12px",
-            flex: 1,                        /* setiap item mengisi ruang yang sama */
+            flex: 1,
+            padding: "10px 0",
             borderBottom: i < transactions.length - 1
               ? "1px solid #F5F7FA" : "none",
           }}>

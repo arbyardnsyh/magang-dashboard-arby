@@ -8,6 +8,12 @@ import icCircleWhite from "../../assets/icons/cards/icon-2bulat-cardputih.svg";
 // ─── Styles ───────────────────────────────────────────────────────────────────
 
 const injectedStyles = `
+  .cards-row {
+    display: flex;
+    gap: 16px;
+    flex-wrap: nowrap;
+  }
+
   .credit-card-wrap {
     flex: 1 1 0;
     min-width: 0;
@@ -15,14 +21,30 @@ const injectedStyles = `
     border-radius: 20px;
     overflow: hidden;
   }
+
+  /* ── Mobile: snap scroll, card aktif penuh, card berikutnya peek setengah ── */
   @media (max-width: 680px) {
-    .credit-card-wrap { height: 160px !important; }
+    .cards-row {
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding-bottom: 8px;
+      /* Padding kanan agar card ke-2 peek ~setengah */
+      padding-right: 16px;
+    }
+    .cards-row::-webkit-scrollbar {
+      display: none;
+    }
+    .credit-card-wrap {
+      /* Lebar card = 85% container → card berikutnya peek ~15% */
+      flex: 0 0 85% !important;
+      scroll-snap-align: start;
+    }
   }
 `;
 
 const styles = {
-  // ── CreditCard ──────────────────────────────────────────────
-
   cardInner: (dark) => ({
     width: "100%",
     height: "100%",
@@ -98,8 +120,6 @@ const styles = {
     whiteSpace: "nowrap",
   }),
 
-  // ── MyCards ─────────────────────────────────────────────────
-
   section: {
     display: "flex",
     flexDirection: "column",
@@ -131,96 +151,125 @@ const styles = {
     padding: 0,
   },
 
-  // Scroll horizontal aktif di mobile
   cardsRow: {
     display: "flex",
     gap: "16px",
-    overflowX: "auto",
-    paddingBottom: "4px",
   },
 };
 
 // ─── Sub-Komponen: CreditCard ─────────────────────────────────────────────────
 
 /**
- * Kartu kredit individual.
- *
  * Props:
- *   - dark       {boolean} — varian warna: true = biru gelap, false = putih
- *   - balance    {number}  — saldo kartu
- *   - holder     {string}  — nama pemegang kartu
- *   - validThru  {string}  — masa berlaku kartu (MM/YY)
- *   - cardNumber {string}  — nomor kartu (termasuk masking)
+ *   - dark       {boolean}
+ *   - balance    {number}
+ *   - holder     {string}
+ *   - validThru  {string}
+ *   - cardNumber {string}
+ *   - onClick    {function} — dipanggil saat card diklik (untuk scroll mobile)
+ *   - cardRef    {React.Ref}
  */
-function CreditCard({ dark, balance, holder, validThru, cardNumber }) {
+function CreditCard({ dark, balance, holder, validThru, cardNumber, onClick, cardRef }) {
   return (
-    <>
-      <style>{injectedStyles}</style>
+    <div className="credit-card-wrap" ref={cardRef} onClick={onClick} style={{ cursor: "pointer" }}>
+      <div style={styles.cardInner(dark)}>
 
-      <div className="credit-card-wrap">
-        <div style={styles.cardInner(dark)}>
-
-          {/* Bagian atas: saldo & ikon */}
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-            <div>
-              <p style={styles.labelText(dark)}>Balance</p>
-              <p style={styles.balanceText(dark)}>${balance.toLocaleString()}</p>
-            </div>
-            <img
-              src={dark ? icChip : icMaster}
-              alt={dark ? "chip" : "mastercard"}
-              width={30} height={24}
-              style={{ objectFit: "contain", display: "block", flexShrink: 0 }}
-              onError={(e) => { e.currentTarget.style.display = "none"; }}
-            />
+        {/* Bagian atas: saldo & ikon */}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+          <div>
+            <p style={styles.labelText(dark)}>Balance</p>
+            <p style={styles.balanceText(dark)}>${balance.toLocaleString()}</p>
           </div>
-
-          {/* Bagian tengah: card holder & valid thru */}
-          <div style={{ display: "flex", gap: "24px" }}>
-            <div>
-              <p style={styles.metaLabel(dark)}>Card Holder</p>
-              <p style={styles.metaValue(dark)}>{holder}</p>
-            </div>
-            <div>
-              <p style={styles.metaLabel(dark)}>Valid Thru</p>
-              <p style={styles.metaValue(dark)}>{validThru}</p>
-            </div>
-          </div>
-
-          {/* Bagian bawah: nomor kartu & logo */}
-          <div style={styles.cardBottom(dark)}>
-            <p style={styles.cardNumber(dark)}>{cardNumber}</p>
-            <img
-              src={dark ? icCircleBlue : icCircleWhite}
-              alt="card-circles"
-              width={36} height={24}
-              style={{ objectFit: "contain", flexShrink: 0, marginLeft: "8px" }}
-              onError={(e) => { e.currentTarget.style.display = "none"; }}
-            />
-          </div>
-
+          <img
+            src={dark ? icChip : icMaster}
+            alt={dark ? "chip" : "mastercard"}
+            width={30} height={24}
+            style={{ objectFit: "contain", display: "block", flexShrink: 0 }}
+            onError={(e) => { e.currentTarget.style.display = "none"; }}
+          />
         </div>
+
+        {/* Bagian tengah: card holder & valid thru */}
+        <div style={{ display: "flex", gap: "24px" }}>
+          <div>
+            <p style={styles.metaLabel(dark)}>Card Holder</p>
+            <p style={styles.metaValue(dark)}>{holder}</p>
+          </div>
+          <div>
+            <p style={styles.metaLabel(dark)}>Valid Thru</p>
+            <p style={styles.metaValue(dark)}>{validThru}</p>
+          </div>
+        </div>
+
+        {/* Bagian bawah: nomor kartu & logo */}
+        <div style={styles.cardBottom(dark)}>
+          <p style={styles.cardNumber(dark)}>{cardNumber}</p>
+          <img
+            src={dark ? icCircleBlue : icCircleWhite}
+            alt="card-circles"
+            width={36} height={24}
+            style={{ objectFit: "contain", flexShrink: 0, marginLeft: "8px" }}
+            onError={(e) => { e.currentTarget.style.display = "none"; }}
+          />
+        </div>
+
       </div>
-    </>
+    </div>
   );
 }
 
 // ─── Komponen Utama ───────────────────────────────────────────────────────────
 
+import { useRef } from "react";
+
 export default function MyCards() {
+  const rowRef   = useRef(null);
+  const card0Ref = useRef(null); // kartu biru (index 0)
+  const card1Ref = useRef(null); // kartu putih (index 1)
+
+  /**
+   * Scroll row ke posisi card yang diklik.
+   * scrollIntoView dengan { inline: "start" } akan snap ke card tersebut.
+   */
+  const handleCardClick = (cardRef) => {
+    if (!cardRef.current) return;
+    cardRef.current.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+      inline: "start",
+    });
+  };
+
   return (
     <div style={styles.section}>
+      <style>{injectedStyles}</style>
 
-      {/* Header: judul & tombol lihat semua */}
+      {/* Header */}
       <div style={styles.header}>
         <h2 style={styles.title}>My Cards</h2>
         <button style={styles.seeAll}>See All</button>
       </div>
 
-      {/* Daftar kartu — scroll horizontal di mobile */}
-      <div style={styles.cardsRow}>
-        <CreditCard dark={true}  balance={5756} holder="Eddy Cusuma" validThru="12/22" cardNumber="3778 **** **** 1234" />
-        <CreditCard dark={false} balance={5756} holder="Eddy Cusuma" validThru="12/22" cardNumber="3778 **** **** 1234" />
+      {/* Daftar kartu */}
+      <div className="cards-row" style={styles.cardsRow} ref={rowRef}>
+        <CreditCard
+          dark={true}
+          balance={5756}
+          holder="Eddy Cusuma"
+          validThru="12/22"
+          cardNumber="3778 **** **** 1234"
+          cardRef={card0Ref}
+          onClick={() => handleCardClick(card0Ref)}
+        />
+        <CreditCard
+          dark={false}
+          balance={5756}
+          holder="Eddy Cusuma"
+          validThru="12/22"
+          cardNumber="3778 **** **** 1234"
+          cardRef={card1Ref}
+          onClick={() => handleCardClick(card1Ref)}
+        />
       </div>
 
     </div>

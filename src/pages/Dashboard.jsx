@@ -50,14 +50,17 @@ export default function Dashboard() {
           }
         }
 
-        /* ── Mobile (≤ 680px): 1 kolom penuh ── */
+        /* ── Mobile (≤ 680px): 1 kolom penuh, tinggi natural ── */
         @media (max-width: 680px) {
           .dash-row-63-37,
           .dash-row-37-63 {
             grid-template-columns: 1fr !important;
             gap: 14px !important;
           }
-          .dash-wrap { gap: 14px; }
+          .dash-wrap { gap: 20px; }
+
+          /* Chart widget — tinggi cukup untuk grafik terbaca */
+          .dash-chart-wrap { min-height: 320px; }
         }
       `}</style>
 
@@ -71,8 +74,8 @@ export default function Dashboard() {
 
         {/* ROW 2 — Weekly Activity + Expense Statistics */}
         <div className="dash-row-63-37">
-          <WeeklyActivity />
-          <ExpenseStatistics />
+          <div className="dash-chart-wrap"><WeeklyActivity /></div>
+          <div className="dash-chart-wrap"><ExpenseStatistics /></div>
         </div>
 
         {/* ROW 3 — Quick Transfer + Balance History */}
