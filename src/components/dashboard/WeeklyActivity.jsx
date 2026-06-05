@@ -57,7 +57,6 @@ const CustomTooltip = ({ active, payload, label }) => {
       fontFamily   : FONT.family,
       boxShadow    : "0 4px 20px rgba(0,0,0,0.1)",
     }}>
-      {/* Label Hari */}
       <p style={{
         fontSize     : FONT.size.sm,
         color        : COLOR.label,
@@ -66,8 +65,6 @@ const CustomTooltip = ({ active, payload, label }) => {
       }}>
         {label}
       </p>
-
-      {/* Baris Nilai per Kategori */}
       {payload.map((p, i) => (
         <p key={i} style={{
           fontSize     : FONT.size.md,
@@ -91,6 +88,7 @@ const LegendItem = ({ color, label }) => (
       height       : "12px",
       borderRadius : "50%",
       background   : color,
+      flexShrink   : 0,
     }} />
     <span style={{
       fontFamily : FONT.family,
@@ -106,7 +104,9 @@ const LegendItem = ({ color, label }) => (
 // ─── Komponen Utama: Weekly Activity ─────────────────────────────────────────
 export default function WeeklyActivity() {
   return (
-    <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
+    // ✅ FIX: Hapus height:"100%" — biarkan tinggi ditentukan oleh konten.
+    // Ini mencegah card terpotong di mobile saat parent tidak punya tinggi eksplisit.
+    <div style={{ display: "flex", flexDirection: "column" }}>
 
       {/* ── Judul Section ── */}
       <h2 style={{
@@ -116,21 +116,21 @@ export default function WeeklyActivity() {
         color        : COLOR.heading,
         margin       : 0,
         marginBottom : "20px",
-        flexShrink   : 0,
       }}>
         Weekly Activity
       </h2>
 
-      {/* ── Card Wrapper — flex:1 agar tinggi ikut stretch dari grid ── */}
+      {/* ── Card Wrapper ── */}
+      {/* ✅ FIX: Ganti flex:1 ke width:"100%", dan gunakan paddingBottom agar
+               konten tidak terpotong. Chart diberi tinggi eksplisit (px) bukan
+               height:"100%" supaya ResponsiveContainer punya referensi yang valid. */}
       <div style={{
-        background     : COLOR.cardBg,
-        borderRadius   : "22px",
-        padding        : "24px 24px 16px",
-        boxShadow      : "0 4px 20px rgba(0,0,0,0.05)",
-        flex           : 1,
-        display        : "flex",
-        flexDirection  : "column",
-        minHeight      : 0,
+        background    : COLOR.cardBg,
+        borderRadius  : "22px",
+        padding       : "24px 24px 20px",
+        boxShadow     : "0 4px 20px rgba(0,0,0,0.05)",
+        width         : "100%",
+        boxSizing     : "border-box",
       }}>
 
         {/* ── Legend ── */}
@@ -139,14 +139,16 @@ export default function WeeklyActivity() {
           justifyContent : "flex-end",
           gap            : "24px",
           marginBottom   : "20px",
-          flexShrink     : 0,
         }}>
           <LegendItem color={COLOR.deposit}  label="Deposit"  />
           <LegendItem color={COLOR.withdraw} label="Withdraw" />
         </div>
 
-        {/* ── Area Chart — flex:1, tinggi ikut sisa ruang card ── */}
-        <div style={{ flex: 1, minHeight: 0 }}>
+        {/* ── Area Chart ── */}
+        {/* ✅ FIX: Beri tinggi tetap dalam px. ResponsiveContainer WAJIB punya
+                 parent dengan tinggi eksplisit — bukan "100%" yang bergantung
+                 pada flex parent yang tidak punya tinggi sendiri. */}
+        <div style={{ width: "100%", height: 220 }}>
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
               data={data}
@@ -155,45 +157,34 @@ export default function WeeklyActivity() {
               barCategoryGap="35%"
               margin={CHART_MARGIN}
             >
-              {/* Grid Horizontal */}
               <CartesianGrid
                 strokeDasharray=""
                 vertical={false}
                 stroke={COLOR.grid}
                 strokeWidth={1}
               />
-
-              {/* Sumbu X */}
               <XAxis
                 dataKey="day"
                 axisLine={false}
                 tickLine={false}
                 tick={{ fontFamily: FONT.family, fontSize: 13, fill: COLOR.label }}
               />
-
-              {/* Sumbu Y */}
               <YAxis
                 axisLine={false}
                 tickLine={false}
                 ticks={CHART_TICKS}
                 tick={{ fontFamily: FONT.family, fontSize: 13, fill: COLOR.label }}
               />
-
-              {/* Tooltip Kustom */}
               <Tooltip
                 content={<CustomTooltip />}
                 cursor={{ fill: "rgba(0,0,0,0.02)" }}
               />
-
-              {/* Bar Withdraw */}
               <Bar
                 dataKey="withdraw"
                 name="Withdraw"
                 fill={COLOR.withdraw}
                 radius={BAR_RADIUS}
               />
-
-              {/* Bar Deposit */}
               <Bar
                 dataKey="deposit"
                 name="Deposit"
