@@ -127,7 +127,7 @@ export default function PreferenceSetting() {
     setNotifications((prev) => ({ ...prev, [key]: !prev[key] }));
 
   return (
-    <div style={{ width: "100%" }}>
+    <div style={{ width: "100%", display: "flex", flexDirection: "column" }}>
 
       {/* ── Responsive Styles ── */}
       <style>{`
@@ -147,7 +147,7 @@ export default function PreferenceSetting() {
         .pref-save-wrap {
           display: flex;
           justify-content: flex-end;
-          margin-top: 32px;
+          margin-top: 11px;
         }
         .pref-save-btn {
           background: #1814F3;

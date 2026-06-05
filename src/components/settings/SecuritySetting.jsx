@@ -1,5 +1,3 @@
-// SecuritySetting.jsx
-
 import { useState } from "react";
 
 
@@ -89,14 +87,14 @@ export default function SecuritySetting() {
   const [newPass, setNewPass] = useState("");
 
   return (
-    <div style={{ width: "100%" }}>
+    <div style={{ width: "100%", display: "flex", flexDirection: "column" }}>
 
       {/* ── Responsive Styles ── */}
       <style>{`
         .sec-save-wrap {
           display: flex;
           justify-content: flex-end;
-          margin-top: 40px;
+          margin-top: 32px;
         }
         .sec-save-btn {
           background: #1814F3;
