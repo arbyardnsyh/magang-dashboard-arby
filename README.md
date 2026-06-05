@@ -8,10 +8,6 @@ JURUSAN: BISNIS DAN INFORMATIKA
 
 PROGRAM STUDI: TEKNOLOGI REKAYASA PERANGKAT LUNAK 
 
-KAMPUS: POLITEKNIK NEGERI BANYUWANGI
-
-EMAIL: arbyardiansyah35@gmail.com
-
 Description:
 
 A modern and responsive banking dashboard built with React.js and Vite, designed to replicate a professional financial management interface based on a Figma design specification. This project was developed as part of a Frontend Developer technical assessment, focusing on responsive layouts, component-based architecture, clean code practices, and user-friendly interfaces.
