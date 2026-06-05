@@ -13,12 +13,7 @@ const injectedStyles = `
     min-width: 0;
     height: 195px;
     border-radius: 20px;
-  }
-  .credit-card-wrap--dark {
-    filter: drop-shadow(0 6px 20px rgba(24,20,243,0.30));
-  }
-  .credit-card-wrap--light {
-    filter: drop-shadow(0 4px 14px rgba(0,0,0,0.09));
+    overflow: hidden;
   }
   @media (max-width: 680px) {
     .credit-card-wrap { height: 160px !important; }
@@ -41,15 +36,14 @@ const styles = {
     flexDirection: "column",
     justifyContent: "space-between",
     position: "relative",
-    overflow: "hidden",
     boxSizing: "border-box",
   }),
 
   labelText: (dark) => ({
     fontSize: "10px",
     fontWeight: 400,
-    margin: "0 0 4px",
-    color: dark ? "rgba(255,255,255,0.7)" : "#718EBF",
+    margin: "0 0 2px",
+    color: dark ? "#FFFFFF" : "#718EBF",
     fontFamily: "'Lato','Inter','Segoe UI',Arial,sans-serif",
   }),
 
@@ -63,8 +57,8 @@ const styles = {
   }),
 
   metaLabel: (dark) => ({
-    fontSize: "8px",
-    margin: "0 0 3px",
+    fontSize: "10px",
+    margin: "0 0 1px",
     color: dark ? "rgba(255,255,255,0.55)" : "#718EBF",
     fontFamily: "'Lato','Inter','Segoe UI',Arial,sans-serif",
     fontWeight: 400,
@@ -73,7 +67,7 @@ const styles = {
   }),
 
   metaValue: (dark) => ({
-    fontSize: "12px",
+    fontSize: "14px",
     fontWeight: 600,
     margin: 0,
     color: dark ? "#FFFFFF" : "#343C6A",
@@ -163,7 +157,7 @@ function CreditCard({ dark, balance, holder, validThru, cardNumber }) {
     <>
       <style>{injectedStyles}</style>
 
-      <div className={`credit-card-wrap ${dark ? "credit-card-wrap--dark" : "credit-card-wrap--light"}`}>
+      <div className="credit-card-wrap">
         <div style={styles.cardInner(dark)}>
 
           {/* Bagian atas: saldo & ikon */}
