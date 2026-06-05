@@ -10,17 +10,23 @@ import BalanceHistory     from "../components/dashboard/BalanceHistory";
 export default function Dashboard() {
   return (
     <>
-      {/* ── Stylesheet Responsif Grid ─────────────────────────────────────── */}
       <style>{`
+        *,
+        *::before,
+        *::after {
+          box-sizing: border-box;
+        }
+
         .dash-wrap {
           display: flex;
           flex-direction: column;
           gap: 20px;
           width: 100%;
-          box-sizing: border-box;
+          max-width: 100%;
+          overflow-x: hidden;        /* cegah horizontal scroll */
         }
 
-        /* ── Desktop: 63/37 kiri-kanan ── */
+        /* ── Desktop: 63/37 ── */
         .dash-row-63-37 {
           display: grid;
           grid-template-columns: minmax(0, 1.72fr) minmax(0, 1fr);
@@ -28,7 +34,7 @@ export default function Dashboard() {
           align-items: stretch;
         }
 
-        /* ── Desktop: 37/63 kiri-kanan ── */
+        /* ── Desktop: 37/63 ── */
         .dash-row-37-63 {
           display: grid;
           grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.72fr);
@@ -40,50 +46,47 @@ export default function Dashboard() {
         .dash-row-37-63 > * {
           display: flex;
           flex-direction: column;
+          min-width: 0;              /* ← kunci: cegah grid item melar */
+          overflow: hidden;
         }
 
-        /* ── Tablet (≤ 1024px): 2 kolom sama rata ── */
+        /* ── Tablet (≤ 1024px) ── */
         @media (max-width: 1024px) {
           .dash-row-63-37,
           .dash-row-37-63 {
-            grid-template-columns: 1fr 1fr !important;
+            grid-template-columns: 1fr 1fr;
           }
         }
 
-        /* ── Mobile (≤ 680px): 1 kolom penuh, tinggi natural ── */
-        @media (max-width: 680px) {
+        /* ── Mobile (≤ 768px) — cover semua HP modern ── */
+        @media (max-width: 768px) {
+          .dash-wrap {
+            gap: 16px;
+          }
           .dash-row-63-37,
           .dash-row-37-63 {
-            grid-template-columns: 1fr !important;
-            gap: 14px !important;
+            grid-template-columns: 1fr;
+            gap: 16px;
           }
-          .dash-wrap { gap: 20px; }
-
-          /* Chart widget — tinggi cukup untuk grafik terbaca */
-          .dash-chart-wrap { min-height: 320px; }
+          .dash-chart-wrap {
+            min-height: 280px;
+          }
         }
       `}</style>
 
       <div className="dash-wrap">
-
-        {/* ROW 1 — My Cards + Recent Transactions */}
         <div className="dash-row-63-37">
           <MyCards />
           <RecentTransactions />
         </div>
-
-        {/* ROW 2 — Weekly Activity + Expense Statistics */}
         <div className="dash-row-63-37">
           <div className="dash-chart-wrap"><WeeklyActivity /></div>
           <div className="dash-chart-wrap"><ExpenseStatistics /></div>
         </div>
-
-        {/* ROW 3 — Quick Transfer + Balance History */}
         <div className="dash-row-37-63">
-          <div style={{ isolation: "isolate" }}><QuickTransfer /></div>
-          <div style={{ isolation: "isolate" }}><BalanceHistory /></div>
+          <QuickTransfer />
+          <BalanceHistory />
         </div>
-
       </div>
     </>
   );
