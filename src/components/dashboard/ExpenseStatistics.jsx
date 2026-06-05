@@ -1,6 +1,7 @@
 import expenseImg from "../../assets/images/statistics/ExpenseStatistics-image.svg";
 
 // ─── Styles ───────────────────────────────────────────────────────────────────
+
 const styles = {
   wrapper: {
     display: "flex",
@@ -30,9 +31,9 @@ const styles = {
     overflow: "hidden",
   },
 
-  // width: 100%, height: auto → gambar proporsional mengisi lebar card
+  // image setting
   image: {
-    width: "80%",
+    width: "85%",
     height: "auto",
     display: "block",
     objectFit: "contain",
@@ -46,7 +47,6 @@ export default function ExpenseStatistics() {
   return (
     <div style={styles.wrapper}>
       <h2 style={styles.title}>Expense Statistics</h2>
-
       <div style={styles.card}>
         <img
           src={expenseImg}
