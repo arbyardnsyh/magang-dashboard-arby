@@ -8,11 +8,13 @@ const loanIconModules = import.meta.glob(
   { eager: true }
 );
 
+// ─── Helper: Ambil Ikon Berdasarkan Nama File ─────────────────────────────────
 function getLoanIcon(filename) {
   const entry = Object.entries(loanIconModules).find(([p]) => p.endsWith("/" + filename));
   return entry ? entry[1].default : null;
 }
 
+// ─── Konstanta: Mapping Key → File Ikon ──────────────────────────────────────
 const STAT_ICONS = {
   personal:  "personal-icon.svg",
   corporate: "corporate-icon.svg",
@@ -20,6 +22,7 @@ const STAT_ICONS = {
   custom:    "custom-icon.svg",
 };
 
+// ─── Data Statis: Kartu Statistik Pinjaman ────────────────────────────────────
 const loanStats = [
   { key: "personal",  label: "Personal Loans",  value: "$50,000",      iconBg: "#E7EDFF", fbColor: "#1814F3", fbShape: "person"    },
   { key: "corporate", label: "Corporate Loans", value: "$100,000",     iconBg: "#FFF5D9", fbColor: "#FFBB38", fbShape: "briefcase" },
@@ -27,9 +30,9 @@ const loanStats = [
   { key: "custom",    label: "Custom Loans",    value: "Choose Money", iconBg: "#DCFAF8", fbColor: "#16DBCC", fbShape: "wrench"    },
 ];
 
-// ─── Injected CSS ─────────────────────────────────────────────────────────────
+// ─── Injected CSS: Layout Stat Cards ─────────────────────────────────────────
 const injectedStyles = `
-  /* Desktop (≥ 1024px): 4 kolom grid */
+  /* ── Desktop (≥ 1024px): 4 kolom grid ─────────────────────────────────── */
   .loan-stat-row {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -40,20 +43,20 @@ const injectedStyles = `
     min-width: 0;
   }
 
-  /* Tablet (768px–1023px): 4 kolom lebih compact */
-@media (min-width: 768px) and (max-width: 1025px) {
-  .loan-stat-row {
-    gap: 10px;
+  /* ── Tablet (768px – 1025px): 4 kolom lebih compact ───────────────────── */
+  @media (min-width: 768px) and (max-width: 1025px) {
+    .loan-stat-row {
+      gap: 10px;
+    }
+    .loan-stat-card  { padding: 22px 20px !important; gap: 8px !important; }
+    .loan-icon-wrap  { width: 44px !important; height: 44px !important; }
+    .loan-icon-img   { width: 20px !important; height: 20px !important; }
+    .loan-label      { font-size: 9px !important; }
+    .loan-value      { font-size: 14px !important; }
+    .loan-value-sm   { font-size: 10px !important; }
   }
-  .loan-stat-card  { padding: 22px 20px !important; gap: 8px !important; }
-  .loan-icon-wrap  { width: 44px !important; height: 44px !important; }
-  .loan-icon-img   { width: 20px !important; height: 20px !important; }
-  .loan-label      { font-size: 9px !important; }
-  .loan-value      { font-size: 14px !important; }
-  .loan-value-sm   { font-size: 10px !important; }
-}
 
-  /* Mobile (≤ 767px): snap scroll horizontal */
+  /* ── Mobile (≤ 767px): snap scroll horizontal ──────────────────────────── */
   @media (max-width: 767px) {
     .loan-stat-row {
       display: flex;
@@ -82,6 +85,7 @@ function FallbackIcon({ shape, color }) {
       <path d="M6 30c0-6 5.4-10.5 12-10.5S30 24 30 30" stroke={color} strokeWidth="2.5" strokeLinecap="round" fill="none"/>
     </svg>
   );
+
   if (shape === "briefcase") return (
     <svg width="28" height="28" viewBox="0 0 36 36" fill="none">
       <rect x="3" y="11" width="30" height="20" rx="3" fill={color}/>
@@ -89,6 +93,7 @@ function FallbackIcon({ shape, color }) {
       <line x1="3" y1="20" x2="33" y2="20" stroke="#fff" strokeWidth="2"/>
     </svg>
   );
+
   if (shape === "chart") return (
     <svg width="28" height="28" viewBox="0 0 36 36" fill="none">
       <rect x="4"  y="20" width="7" height="13" rx="1.5" fill={color}/>
@@ -96,6 +101,8 @@ function FallbackIcon({ shape, color }) {
       <rect x="26" y="6"  width="7" height="27" rx="1.5" fill={color}/>
     </svg>
   );
+
+  // ── Fallback default: wrench / custom ──
   return (
     <svg width="28" height="28" viewBox="0 0 36 36" fill="none">
       <path d="M22 6a8 8 0 00-7.94 9.12L4.93 24.25a3 3 0 004.24 4.24l9.13-9.13A8 8 0 0022 6z" fill={color}/>
@@ -107,6 +114,7 @@ function FallbackIcon({ shape, color }) {
 // ─── Sub-Komponen: StatCard ───────────────────────────────────────────────────
 function StatCard({ stat, cardRef, onClick }) {
   const iconSrc = getLoanIcon(STAT_ICONS[stat.key]);
+
   return (
     <div
       className="loan-stat-card-wrap"
@@ -129,6 +137,7 @@ function StatCard({ stat, cardRef, onClick }) {
           boxSizing: "border-box",
         }}
       >
+        {/* ── Ikon Kategori Pinjaman ── */}
         <div
           className="loan-icon-wrap"
           style={{
@@ -152,6 +161,7 @@ function StatCard({ stat, cardRef, onClick }) {
           }
         </div>
 
+        {/* ── Label & Nilai Pinjaman ── */}
         <div style={{ minWidth: 0 }}>
           <p
             className="loan-label"
@@ -189,8 +199,11 @@ function StatCard({ stat, cardRef, onClick }) {
 
 // ─── Komponen Utama: Loan ─────────────────────────────────────────────────────
 export default function Loan() {
+
+  // ── Refs: Setiap Kartu untuk Smooth Scroll ──────────────────────────────────
   const cardRefs = [useRef(null), useRef(null), useRef(null), useRef(null)];
 
+  // ── Handler: Scroll ke Kartu yang Diklik ────────────────────────────────────
   const handleCardClick = (ref) => {
     if (!ref.current) return;
     ref.current.scrollIntoView({
@@ -209,7 +222,7 @@ export default function Loan() {
     }}>
       <style>{injectedStyles}</style>
 
-      {/* ── Stat Cards ── */}
+      {/* ── Baris Stat Cards ─────────────────────────────────────────────── */}
       <div className="loan-stat-row">
         {loanStats.map((s, i) => (
           <StatCard
@@ -221,7 +234,7 @@ export default function Loan() {
         ))}
       </div>
 
-      {/* ── Tabel Pinjaman Aktif ── */}
+      {/* ── Tabel Pinjaman Aktif ──────────────────────────────────────────── */}
       <LoanTable />
     </div>
   );

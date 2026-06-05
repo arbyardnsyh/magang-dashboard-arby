@@ -1,14 +1,18 @@
+// ─── Aset: Gambar Pie Chart ───────────────────────────────────────────────────
 import expenseImg from "../../assets/images/statistics/ExpenseStatistics-image.svg";
 
-// ─── Styles ───────────────────────────────────────────────────────────────────
+// ─── Konstanta Layout ─────────────────────────────────────────────────────────
 
 const styles = {
+
+  // Wrapper utama — kolom fleksibel mengikuti tinggi grid induk
   wrapper: {
     display: "flex",
     flexDirection: "column",
     height: "100%",
   },
 
+  // Judul seksi
   title: {
     fontFamily: "Inter, sans-serif",
     fontWeight: 700,
@@ -18,7 +22,7 @@ const styles = {
     flexShrink: 0,
   },
 
-  // flex: 1 agar tinggi mengikuti WeeklyActivity di sebelah kiri
+  // Card kontainer — flex:1 agar tinggi sejajar dengan WeeklyActivity di sebelah kiri
   card: {
     background: "#FFFFFF",
     borderRadius: "22px",
@@ -31,7 +35,7 @@ const styles = {
     overflow: "hidden",
   },
 
-  // image setting
+  // Gambar statistik — proporsional dan terpusat dalam card
   image: {
     width: "85%",
     height: "auto",
@@ -39,9 +43,10 @@ const styles = {
     objectFit: "contain",
     margin: "0 auto",
   },
+
 };
 
-// ─── Komponen ─────────────────────────────────────────────────────────────────
+// ─── Komponen: ExpenseStatistics ─────────────────────────────────────────────
 
 export default function ExpenseStatistics() {
   return (

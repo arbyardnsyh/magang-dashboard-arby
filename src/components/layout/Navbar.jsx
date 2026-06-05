@@ -1,16 +1,22 @@
-import { useState } from "react";
-import { useLocation } from "react-router-dom";
+// ─── Dependensi Eksternal ────────────────────────────────────────────────────
+import { useState }      from "react";
+import { useLocation }   from "react-router-dom";
 
+// ─── Aset: Ikon & Avatar ─────────────────────────────────────────────────────
 import iconMenu     from "../../assets/icons/LOGO/icon-humberger.svg";
 import iconBell     from "../../assets/icons/LOGO/icon-bel.svg";
 import avatarSrc    from "../../assets/images/profile/profile-photo.svg";
 import iconSettings from "../../assets/icons/LOGO/icon-settings-fix.svg";
 import iconSearch   from "../../assets/icons/LOGO/search-icon.svg";
 
+
+// ─── Konstanta Dimensi ───────────────────────────────────────────────────────
 const SIDEBAR_W      = 250;
 const SIDEBAR_W_SLIM = 70;
 const NAVBAR_H       = 80;
 
+
+// ─── Peta Judul Halaman ──────────────────────────────────────────────────────
 const pageTitles = {
   "/":           "Overview",
   "/transfer":   "Transactions",
@@ -23,6 +29,8 @@ const pageTitles = {
   "/settings":   "Setting",
 };
 
+
+// ─── Ikon Fallback (SVG Inline) ───────────────────────────────────────────────
 const FbSearch = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
     <circle cx="11" cy="11" r="7" stroke="#8BA3CB" strokeWidth="1.8" />
@@ -56,6 +64,8 @@ const FbMenu = () => (
   </svg>
 );
 
+
+// ─── Responsive CSS (Injected) ───────────────────────────────────────────────
 const navbarStyles = `
   .navbar-root {
     position: fixed;
@@ -107,6 +117,8 @@ const navbarStyles = `
   }
 `;
 
+
+// ─── Style Objek ─────────────────────────────────────────────────────────────
 const styles = {
   hamburgerBtn: {
     display:        "none",
@@ -206,9 +218,13 @@ const styles = {
   },
 };
 
+
+// ─── Komponen: Nav Icon (dengan Fallback) ─────────────────────────────────────
 function NavIcon({ src, Fallback, width = 20, height = 20, alt = "" }) {
   const [err, setErr] = useState(false);
+
   if (!src || err) return <Fallback />;
+
   return (
     <img
       src={src}
@@ -221,12 +237,16 @@ function NavIcon({ src, Fallback, width = 20, height = 20, alt = "" }) {
   );
 }
 
+
+// ─── Komponen Utama: Navbar ───────────────────────────────────────────────────
 export default function Navbar({ onMenuClick }) {
-  const location = useLocation();
+  const location       = useLocation();
   const [search, setSearch] = useState("");
 
+  // ── Judul halaman berdasarkan path aktif ──
   const title = pageTitles[location.pathname] || "Overview";
 
+  // ── Fallback avatar jika gagal load ──
   const handleAvatarError = (e) => {
     e.currentTarget.src     = "https://i.pravatar.cc/48?img=47";
     e.currentTarget.onerror = null;
@@ -247,13 +267,15 @@ export default function Navbar({ onMenuClick }) {
           <NavIcon src={iconMenu} Fallback={FbMenu} width={22} height={22} alt="menu" />
         </button>
 
-        {/* Judul halaman */}
+        {/* Judul Halaman */}
         <h1 className="navbar-title" style={styles.pageTitle}>
           {title}
         </h1>
 
-        {/* Grup kanan — desktop & tablet */}
+        {/* Grup Kanan — desktop & tablet */}
         <div className="navbar-desktop" style={styles.desktopGroup}>
+
+          {/* Search Bar */}
           <div style={styles.searchWrapper}>
             <span style={styles.searchIconSpan}>
               <NavIcon src={iconSearch} Fallback={FbSearch} width={16} height={16} />
@@ -268,32 +290,25 @@ export default function Navbar({ onMenuClick }) {
             />
           </div>
 
+          {/* Tombol Settings */}
           <button style={styles.iconBtn}>
             <NavIcon src={iconSettings} Fallback={FbSettings} width={20} height={20} alt="settings" />
           </button>
 
+          {/* Tombol Notifikasi */}
           <button style={styles.iconBtn}>
             <NavIcon src={iconBell} Fallback={FbBell} width={20} height={20} alt="notifications" />
           </button>
 
+          {/* Avatar Desktop */}
           <div style={styles.avatarDesktop}>
-            <img
-              src={avatarSrc}
-              alt="User"
-              style={styles.avatarImg}
-              onError={handleAvatarError}
-            />
+            <img src={avatarSrc} alt="User" style={styles.avatarImg} onError={handleAvatarError} />
           </div>
         </div>
 
         {/* Avatar — mobile only */}
         <div className="navbar-mob-avatar" style={styles.avatarMobile}>
-          <img
-            src={avatarSrc}
-            alt="User"
-            style={styles.avatarImg}
-            onError={handleAvatarError}
-          />
+          <img src={avatarSrc} alt="User" style={styles.avatarImg} onError={handleAvatarError} />
         </div>
 
       </header>

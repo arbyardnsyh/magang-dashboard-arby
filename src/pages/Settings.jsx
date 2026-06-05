@@ -11,6 +11,17 @@ const tabs = [
   { id: "security",    label: "Security"      },
 ];
 
+// ─── Injected CSS: Responsif Tab Button ───────────────────────────────────────
+const settingsStyles = `
+  @media (max-width: 767px) {
+    .settings-tab-btn {
+      white-space: nowrap;
+      padding: 16px 12px !important;
+      font-size: 13px !important;
+    }
+  }
+`;
+
 // ─── Komponen Utama: Settings ─────────────────────────────────────────────────
 export default function Settings() {
 
@@ -25,17 +36,7 @@ export default function Settings() {
       fontFamily: "'Inter', 'Segoe UI', Arial, sans-serif",
       overflow: "hidden",
     }}>
-
-      {/* ── Responsive Styles ── */}
-      <style>{`
-        @media (max-width: 767px) {
-          .settings-tab-btn {
-            white-space: nowrap;
-            padding: 16px 12px !important;
-            font-size: 13px !important;
-          }
-        }
-      `}</style>
+      <style>{settingsStyles}</style>
 
       {/* ── Navigasi Tab ─────────────────────────────────────────────────── */}
       <div style={{

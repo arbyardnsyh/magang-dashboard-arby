@@ -1,12 +1,18 @@
+// ─── Aset: Gambar Grafik ──────────────────────────────────────────────────────
 import balanceImg from "../../assets/images/statistics/chart-BalanceHistory.png";
 
+// ─── Konstanta Layout ─────────────────────────────────────────────────────────
+
 const styles = {
+
+  // Wrapper utama — kolom fleksibel mengikuti tinggi grid induk
   wrapper: {
     display: "flex",
     flexDirection: "column",
-    height: "100%",        // ikuti tinggi kolom dari grid stretch
+    height: "100%",
   },
 
+  // Judul seksi
   title: {
     fontFamily: "Inter, sans-serif",
     fontWeight: 700,
@@ -16,17 +22,19 @@ const styles = {
     flexShrink: 0,
   },
 
+  // Card kontainer — mengisi sisa tinggi wrapper
   card: {
     background: "#FFFFFF",
     borderRadius: "22px",
     boxShadow: "0 4px 20px rgba(0,0,0,0.05)",
     position: "relative",
     overflow: "hidden",
-    flex: 1,               // isi sisa tinggi wrapper
-    minHeight: "150px",    // fallback kalau grid belum stretch
+    flex: 1,
+    minHeight: "150px",  // fallback sebelum grid stretch aktif
     width: "100%",
   },
 
+  // Gambar grafik — terpusat dan sedikit diperbesar agar memenuhi card
   image: {
     position: "absolute",
     top: "50%",
@@ -36,7 +44,10 @@ const styles = {
     height: "105%",
     objectFit: "fill",
   },
+
 };
+
+// ─── Komponen: BalanceHistory ─────────────────────────────────────────────────
 
 export default function BalanceHistory() {
   return (

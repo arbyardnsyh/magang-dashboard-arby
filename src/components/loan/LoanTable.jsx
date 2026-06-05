@@ -1,4 +1,8 @@
+// ─── Dependensi ──────────────────────────────────────────────────────────────
 import { useState } from "react";
+
+
+// ─── Data Statis Tabel Pinjaman ───────────────────────────────────────────────
 
 const tableData = [
   { no: "01.", loanMoney: "$100,000", leftToRepay: "$40,500",  duration: "8 Months",  rate: "12%", installment: "$2,000 / month"  },
@@ -11,11 +15,17 @@ const tableData = [
   { no: "08.", loanMoney: "$160,000", leftToRepay: "$100,800", duration: "3 Months",  rate: "12%", installment: "$900 / month"    },
 ];
 
+
+// ─── Ringkasan Total ──────────────────────────────────────────────────────────
+
 const TOTAL = {
   loanMoney:   "$1,250,000",
   leftToRepay: "$750,000",
   installment: "$50,000 / month",
 };
+
+
+// ─── Definisi Kolom Tabel ─────────────────────────────────────────────────────
 
 const COLUMNS = [
   { key: "no",          label: "SL No",         hideOnMobile: true  },
@@ -26,6 +36,9 @@ const COLUMNS = [
   { key: "installment", label: "Installment",    hideOnMobile: true  },
   { key: "action",      label: "Repay",          hideOnMobile: false },
 ];
+
+
+// ─── CSS Responsif (Injected) ─────────────────────────────────────────────────
 
 const injectedStyles = `
   .loantable-wrap  { overflow-x: auto; -webkit-overflow-scrolling: touch; }
@@ -48,6 +61,9 @@ const injectedStyles = `
     .total-label-row  { display: table-row !important; }
   }
 `;
+
+
+// ─── Inline Styles ────────────────────────────────────────────────────────────
 
 const styles = {
   wrapper: {
@@ -124,6 +140,9 @@ const styles = {
   }),
 };
 
+
+// ─── Komponen Tombol Repay ────────────────────────────────────────────────────
+
 function RepayButton({ isActive, onClick }) {
   return (
     <button
@@ -144,9 +163,15 @@ function RepayButton({ isActive, onClick }) {
   );
 }
 
+
+// ─── Komponen Utama LoanTable ─────────────────────────────────────────────────
+
 export default function LoanTable() {
+
+  // ── State: baris yang sedang aktif (dipilih untuk repay) ──
   const [activeRows, setActiveRows] = useState(new Set([0]));
 
+  // ── Handler: toggle aktif/nonaktif baris berdasarkan index ──
   function toggleRow(idx) {
     setActiveRows((prev) => {
       const next = new Set(prev);
@@ -165,6 +190,8 @@ export default function LoanTable() {
       <div className="loantable-card" style={styles.card}>
         <div className="loantable-wrap">
           <table className="loantable-inner">
+
+            {/* ── Header Kolom ── */}
             <thead>
               <tr>
                 {COLUMNS.map((col) => (
@@ -178,7 +205,10 @@ export default function LoanTable() {
                 ))}
               </tr>
             </thead>
+
             <tbody>
+
+              {/* ── Baris Data Pinjaman ── */}
               {tableData.map((row, idx) => (
                 <tr key={idx} style={{ borderBottom: "1px solid #F0F4FB" }}>
                   <td className="lt-td col-hide-mobile" style={styles.td}>{row.no}</td>
@@ -193,7 +223,7 @@ export default function LoanTable() {
                 </tr>
               ))}
 
-              {/* Baris label "Total" — hanya tampil di mobile */}
+              {/* ── Baris Label "Total" — hanya tampil di mobile ── */}
               <tr className="total-label-row">
                 <td colSpan={3} style={{
                   paddingTop: "18px",
@@ -205,9 +235,9 @@ export default function LoanTable() {
                 <td colSpan={4} />
               </tr>
 
-              {/* Baris nominal total */}
+              {/* ── Baris Nominal Total ── */}
               <tr>
-                {/* Desktop: kolom "Total" label tersendiri */}
+                {/* Label "Total" — hanya tampil di desktop */}
                 <td className="lt-td-total col-hide-mobile" style={styles.tdTotal}>Total</td>
 
                 {/* Loan Money */}
@@ -220,6 +250,7 @@ export default function LoanTable() {
                 <td className="lt-td-total col-hide-mobile" style={styles.tdTotalNumeric}>{TOTAL.installment}</td>
                 <td />
               </tr>
+
             </tbody>
           </table>
         </div>

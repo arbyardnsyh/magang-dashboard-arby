@@ -1,11 +1,12 @@
-// ─── Aset: Ikon Kartu ─────────────────────────────────────────────────────────
+// ─── Imports: React & Aset Ikon Kartu ────────────────────────────────────────
+import { useRef } from "react";
 
 import icChip        from "../../assets/icons/cards/icon-chip.svg";
 import icMaster      from "../../assets/icons/cards/icon-mastercard.svg";
 import icCircleBlue  from "../../assets/icons/cards/icon-2bulat-cardbiru.svg";
 import icCircleWhite from "../../assets/icons/cards/icon-2bulat-cardputih.svg";
 
-// ─── Styles ───────────────────────────────────────────────────────────────────
+// ─── CSS Injeksi: Responsive & Scroll Behavior ───────────────────────────────
 
 const injectedStyles = `
   .cards-row {
@@ -22,7 +23,7 @@ const injectedStyles = `
     overflow: hidden;
   }
 
-  /* ── Mobile: snap scroll ── */
+  /* ── Mobile: horizontal snap scroll ── */
   @media (max-width: 680px) {
     .cards-row {
       overflow-x: auto;
@@ -40,7 +41,11 @@ const injectedStyles = `
   }
 `;
 
+// ─── Konstanta Styles ─────────────────────────────────────────────────────────
+
 const styles = {
+
+  // Inner card — background berbeda berdasarkan mode gelap/terang
   cardInner: (dark) => ({
     width: "100%",
     height: "100%",
@@ -57,6 +62,7 @@ const styles = {
     boxSizing: "border-box",
   }),
 
+  // Teks label kecil (Balance, dst)
   labelText: (dark) => ({
     fontSize: "10px",
     fontWeight: 400,
@@ -65,6 +71,7 @@ const styles = {
     fontFamily: "'Lato','Inter','Segoe UI',Arial,sans-serif",
   }),
 
+  // Teks nilai saldo utama
   balanceText: (dark) => ({
     fontSize: "18px",
     fontWeight: 400,
@@ -74,6 +81,7 @@ const styles = {
     letterSpacing: "-0.5px",
   }),
 
+  // Label metadata kecil (Card Holder, Valid Thru)
   metaLabel: (dark) => ({
     fontSize: "10px",
     margin: "0 0 1px",
@@ -84,6 +92,7 @@ const styles = {
     textTransform: "uppercase",
   }),
 
+  // Nilai metadata (nama pemegang, tanggal valid)
   metaValue: (dark) => ({
     fontSize: "14px",
     fontWeight: 400,
@@ -92,6 +101,7 @@ const styles = {
     fontFamily: "'Lato','Inter','Segoe UI',Arial,sans-serif",
   }),
 
+  // Bagian bawah kartu — nomor kartu & ikon jaringan
   cardBottom: (dark) => ({
     display: "flex",
     justifyContent: "space-between",
@@ -106,6 +116,7 @@ const styles = {
     }),
   }),
 
+  // Nomor kartu dengan spasi karakter
   cardNumber: (dark) => ({
     fontSize: "12px",
     fontWeight: 600,
@@ -116,11 +127,13 @@ const styles = {
     whiteSpace: "nowrap",
   }),
 
+  // Wrapper section utama komponen
   section: {
     display: "flex",
     flexDirection: "column",
   },
 
+  // Header — judul kiri, tombol "See All" kanan
   header: {
     display: "flex",
     justifyContent: "space-between",
@@ -151,6 +164,7 @@ const styles = {
     display: "flex",
     gap: "16px",
   },
+
 };
 
 // ─── Sub-Komponen: CreditCard ─────────────────────────────────────────────────
@@ -160,6 +174,7 @@ function CreditCard({ dark, balance, holder, validThru, cardNumber, onClick, car
     <div className="credit-card-wrap" ref={cardRef} onClick={onClick} style={{ cursor: "pointer" }}>
       <div style={styles.cardInner(dark)}>
 
+        {/* Baris atas: saldo & ikon chip/mastercard */}
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
           <div>
             <p style={styles.labelText(dark)}>Balance</p>
@@ -174,6 +189,7 @@ function CreditCard({ dark, balance, holder, validThru, cardNumber, onClick, car
           />
         </div>
 
+        {/* Baris tengah: pemegang kartu & masa berlaku */}
         <div style={{ display: "flex", gap: "24px" }}>
           <div>
             <p style={styles.metaLabel(dark)}>Card Holder</p>
@@ -185,6 +201,7 @@ function CreditCard({ dark, balance, holder, validThru, cardNumber, onClick, car
           </div>
         </div>
 
+        {/* Baris bawah: nomor kartu & ikon jaringan */}
         <div style={styles.cardBottom(dark)}>
           <p style={styles.cardNumber(dark)}>{cardNumber}</p>
           <img
@@ -201,15 +218,14 @@ function CreditCard({ dark, balance, holder, validThru, cardNumber, onClick, car
   );
 }
 
-// ─── Komponen Utama ───────────────────────────────────────────────────────────
-
-import { useRef } from "react";
+// ─── Komponen Utama: MyCards ──────────────────────────────────────────────────
 
 export default function MyCards() {
   const rowRef   = useRef(null);
   const card0Ref = useRef(null);
   const card1Ref = useRef(null);
 
+  // Scroll ke kartu yang diklik agar tetap terlihat pada layar sempit
   const handleCardClick = (cardRef) => {
     if (!cardRef.current) return;
     cardRef.current.scrollIntoView({
@@ -223,11 +239,13 @@ export default function MyCards() {
     <div style={styles.section}>
       <style>{injectedStyles}</style>
 
+      {/* Header seksi */}
       <div style={styles.header}>
         <h2 style={styles.title}>My Cards</h2>
         <button style={styles.seeAll}>See All</button>
       </div>
 
+      {/* Daftar kartu */}
       <div className="cards-row" style={styles.cardsRow} ref={rowRef}>
         <CreditCard
           dark={true}

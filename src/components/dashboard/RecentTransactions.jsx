@@ -5,7 +5,8 @@ import icCard   from "../../assets/icons/transactions/icon-card.svg";
 import icPaypal from "../../assets/icons/transactions/icon-paypal.svg";
 import icUser   from "../../assets/icons/transactions/icon-user.svg";
 
-// ─── Responsive Styles ───────────────────────────────────────────────────────
+// ─── CSS Injeksi: Layout & Responsive ────────────────────────────────────────
+
 const injectedStyles = `
   .recent-tx-panel {
     background: #FFFFFF;
@@ -58,16 +59,14 @@ const injectedStyles = `
     flex-shrink: 0;
   }
 
-  /* Tablet: scale down isi supaya muat di height 148px */
+  /* ── Tablet: perkecil isi agar muat di tinggi 148px ── */
   @media (min-width: 768px) and (max-width: 1023px) {
-  .recent-tx-panel {
-    height: 148px;
-    padding: 6px 14px;
-    width: 231px !important;     /* ← tambah ini */
-    min-width: 231px !important;
-  }
-  /* sisanya tetap sama */
-}
+    .recent-tx-panel {
+      height: 148px;
+      padding: 6px 14px;
+      width: 231px !important;
+      min-width: 231px !important;
+    }
     .tx-icon-wrap {
       width: 30px;
       height: 30px;
@@ -82,7 +81,7 @@ const injectedStyles = `
     .tx-amount { font-size: 11px !important; }
   }
 
-  /* Mobile */
+  /* ── Mobile: tinggi otomatis & lebar penuh ── */
   @media (max-width: 680px) {
     .recent-tx-panel {
       height: auto !important;
@@ -92,12 +91,15 @@ const injectedStyles = `
   }
 `;
 
-// ─── Data Statis Riwayat Transaksi ────────────────────────────────────────────
+// ─── Data Statis: Riwayat Transaksi ──────────────────────────────────────────
+
 const transactions = [
   { id: 1, title: "Deposit from my Card", date: "28 January 2021", amount: -850,  iconBg: "#FFF5D9", iconColor: "#FFBB38", icon: "card",   iconSrc: icCard   },
   { id: 2, title: "Deposit Paypal",        date: "25 January 2021", amount: 2500,  iconBg: "#E7EDFF", iconColor: "#396AFF", icon: "paypal", iconSrc: icPaypal },
   { id: 3, title: "Jemi Wilson",           date: "21 January 2021", amount: 5400,  iconBg: "#DCFAF8", iconColor: "#16DBCC", icon: "user",   iconSrc: icUser   },
 ];
+
+// ─── Ikon SVG Fallback ────────────────────────────────────────────────────────
 
 const CardIcon = ({ color }) => (
   <svg width="22" height="18" viewBox="0 0 28 22" fill="none">
@@ -121,8 +123,12 @@ const UserIcon = ({ color }) => (
   </svg>
 );
 
+// ─── Sub-Komponen: TxIcon ─────────────────────────────────────────────────────
+
+// Menampilkan ikon SVG dari file aset; fallback ke ikon inline jika gagal dimuat
 function TxIcon({ tx }) {
   const [err, setErr] = useState(false);
+
   if (tx.iconSrc && !err) {
     return (
       <img src={tx.iconSrc} alt="" width={24} height={24}
@@ -131,10 +137,13 @@ function TxIcon({ tx }) {
       />
     );
   }
+
   if (tx.icon === "card")   return <CardIcon   color={tx.iconColor} />;
   if (tx.icon === "paypal") return <PaypalIcon color={tx.iconColor} />;
   return <UserIcon color={tx.iconColor} />;
 }
+
+// ─── Komponen Utama: RecentTransactions ──────────────────────────────────────
 
 export default function RecentTransactions() {
   return (
@@ -142,6 +151,7 @@ export default function RecentTransactions() {
 
       <style>{injectedStyles}</style>
 
+      {/* Judul seksi */}
       <h2 style={{
         fontFamily: "Inter, sans-serif", fontWeight: 700,
         fontSize: "18px", color: "#343C6A",
@@ -150,6 +160,7 @@ export default function RecentTransactions() {
         Recent Transaction
       </h2>
 
+      {/* Panel daftar transaksi */}
       <div className="recent-tx-panel">
         {transactions.map((tx, i) => (
           <div key={tx.id} style={{
@@ -162,18 +173,22 @@ export default function RecentTransactions() {
               ? "1px solid #F5F7FA" : "none",
           }}>
 
+            {/* Ikon kategori transaksi */}
             <div className="tx-icon-wrap" style={{ background: tx.iconBg }}>
               <TxIcon tx={tx} />
             </div>
 
+            {/* Detail: judul & tanggal */}
             <div style={{ flex: 1, minWidth: 0 }}>
               <p className="tx-title">{tx.title}</p>
               <p className="tx-date">{tx.date}</p>
             </div>
 
+            {/* Jumlah: merah untuk debit, hijau untuk kredit */}
             <p className="tx-amount" style={{ color: tx.amount < 0 ? "#FF4B4A" : "#41D4A8" }}>
               {tx.amount < 0 ? "-" : "+"}${Math.abs(tx.amount).toLocaleString()}
             </p>
+
           </div>
         ))}
       </div>

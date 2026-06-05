@@ -1,3 +1,4 @@
+// ─── Dependensi ──────────────────────────────────────────────────────────────
 import { useState } from "react";
 
 
@@ -77,14 +78,14 @@ function PasswordInput({ label, value, onChange, placeholder = "" }) {
 }
 
 
-// ─── Halaman Utama Security Setting ──────────────────────────────────────────
+// ─── Komponen Utama Security Setting ─────────────────────────────────────────
 
 export default function SecuritySetting() {
 
   // ── State: Two-Factor Auth & form password ──
-  const [twoFactor, setTwoFactor] = useState(true);
-  const [currentPass, setCurrentPass] = useState("");
-  const [newPass, setNewPass] = useState("");
+  const [twoFactor,    setTwoFactor]    = useState(true);
+  const [currentPass,  setCurrentPass]  = useState("");
+  const [newPass,      setNewPass]      = useState("");
 
   return (
     <div style={{ width: "100%", display: "flex", flexDirection: "column" }}>

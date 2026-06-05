@@ -1,13 +1,12 @@
-// ── Foto profil ────────────────────────────────────────────────
+// ─── Aset: Foto Profil & Icon Edit ───────────────────────────────────────────
 import profileAvatar from "../../assets/images/profile/profile-photo.svg";
+import iconEditPhoto  from "../../assets/images/profile/pencil-setting.svg";
 
-// ── Icon tombol edit foto ─────────────────────────────────────
-import iconEditPhoto from "../../assets/images/profile/pencil-setting.svg";
-
+// ─── Dependensi ──────────────────────────────────────────────────────────────
 import { useState } from "react";
 
 
-// ─── Style Reusable ──────────────────────────────────────────────────────────
+// ─── Style Reusable ───────────────────────────────────────────────────────────
 
 const inputStyle = {
   width: "100%",
@@ -40,25 +39,25 @@ const fieldWrapStyle = {
 };
 
 
-// ─── Halaman Utama Profile Settings ──────────────────────────────────────────
+// ─── Komponen Utama Profile Settings ─────────────────────────────────────────
 
 export default function ProfileSettings() {
 
   // ── State: Data form profil pengguna ──
   const [form, setForm] = useState({
-    yourName: "Charlene Reed",
-    userName: "Charlene Reed",
-    email: "charlenereed@gmail.com",
-    password: "**********",
-    dateOfBirth: "25 January 1990",
-    presentAddress: "San Jose, California, USA",
+    yourName:         "Charlene Reed",
+    userName:         "Charlene Reed",
+    email:            "charlenereed@gmail.com",
+    password:         "**********",
+    dateOfBirth:      "25 January 1990",
+    presentAddress:   "San Jose, California, USA",
     permanentAddress: "San Jose, California, USA",
-    city: "San Jose",
-    postalCode: "45962",
-    country: "USA",
+    city:             "San Jose",
+    postalCode:       "45962",
+    country:          "USA",
   });
 
-  // ── Handler perubahan field secara dinamis ──
+  // ── Handler: perubahan field form secara dinamis ──
   const handleChange = (field) => (e) =>
     setForm((prev) => ({ ...prev, [field]: e.target.value }));
 
@@ -109,7 +108,7 @@ export default function ProfileSettings() {
 
       <div className="ps-root" style={{ display: "flex", gap: "40px" }}>
 
-        {/* ── Kolom Kiri: Avatar Profil ─────────────────────────── */}
+        {/* ── Kolom Kiri: Avatar Profil ─────────────────────────────────────── */}
         <div
           className="ps-avatar-col"
           style={{ flexShrink: 0, display: "flex", flexDirection: "column", alignItems: "center" }}
@@ -134,7 +133,7 @@ export default function ProfileSettings() {
               }}
             />
 
-            {/* Tombol ganti foto */}
+            {/* Tombol ganti foto profil */}
             <button
               title="Ganti foto profil"
               style={{
@@ -165,7 +164,7 @@ export default function ProfileSettings() {
           </div>
         </div>
 
-        {/* ── Kolom Kanan: Form Data Profil ────────────────────── */}
+        {/* ── Kolom Kanan: Form Data Profil ─────────────────────────────────── */}
         <div className="ps-form-col" style={{ flex: 1 }}>
           <div
             className="ps-grid"
@@ -215,7 +214,7 @@ export default function ProfileSettings() {
                   onFocus={(e) => (e.target.style.borderColor = "#1814F3")}
                   onBlur={(e) => (e.target.style.borderColor = "#DFEAF2")}
                 />
-                {/* Chevron icon */}
+                {/* Chevron icon dekoratif */}
                 <svg
                   style={{ position: "absolute", right: 14, top: "50%", transform: "translateY(-50%)", pointerEvents: "none" }}
                   width="12" height="8" viewBox="0 0 12 8" fill="none"

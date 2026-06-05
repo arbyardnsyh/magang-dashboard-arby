@@ -1,12 +1,19 @@
+// ─── Dependensi Eksternal ────────────────────────────────────────────────────
 import { useState } from "react";
-import { Outlet } from "react-router-dom";
-import Sidebar from "./Sidebar";
-import Navbar from "./Navbar";
+import { Outlet }   from "react-router-dom";
 
+// ─── Komponen Internal ───────────────────────────────────────────────────────
+import Sidebar from "./Sidebar";
+import Navbar  from "./Navbar";
+
+
+// ─── Konstanta Dimensi ───────────────────────────────────────────────────────
 const SIDEBAR_W      = 250;
 const SIDEBAR_W_SLIM = 70;
 const NAVBAR_H       = 80;
 
+
+// ─── Responsive CSS (Injected) ───────────────────────────────────────────────
 const responsiveStyles = `
   /* Desktop (≥ 1024px) */
   @media (min-width: 1024px) {
@@ -34,6 +41,8 @@ const responsiveStyles = `
   }
 `;
 
+
+// ─── Style Objek ─────────────────────────────────────────────────────────────
 const styles = {
   root: {
     minHeight:  "100vh",
@@ -90,16 +99,21 @@ const styles = {
   },
 };
 
+
+// ─── Komponen: Mobile Search Bar ─────────────────────────────────────────────
 function MobileSearchBar({ value, onChange }) {
   return (
     <div className="layout-searchbar" style={styles.searchbarWrapper}>
       <div style={styles.searchInputContainer}>
+
+        {/* Ikon Kaca Pembesar */}
         <span style={styles.searchIcon}>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
             <circle cx="11" cy="11" r="7" stroke="#8BA3CB" strokeWidth="1.8" />
             <path d="M16.5 16.5L21 21" stroke="#8BA3CB" strokeWidth="1.8" strokeLinecap="round" />
           </svg>
         </span>
+
         <input
           type="text"
           value={value}
@@ -112,10 +126,13 @@ function MobileSearchBar({ value, onChange }) {
   );
 }
 
+
+// ─── Komponen Utama: Layout ───────────────────────────────────────────────────
 export default function Layout() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [search,     setSearch]     = useState("");
 
+  // ── Handler ──
   const handleMenuClick    = () => setMobileOpen(true);
   const handleSidebarClose = () => setMobileOpen(false);
   const handleSearchChange = (e) => setSearch(e.target.value);
@@ -124,8 +141,10 @@ export default function Layout() {
     <div style={styles.root}>
       <style>{responsiveStyles}</style>
 
+      {/* Sidebar Navigasi */}
       <Sidebar mobileOpen={mobileOpen} onClose={handleSidebarClose} />
 
+      {/* Area Konten Utama */}
       <div className="layout-content" style={styles.contentWrapper}>
         <Navbar onMenuClick={handleMenuClick} />
 

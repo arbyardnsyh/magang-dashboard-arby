@@ -1,3 +1,4 @@
+// ─── Dependensi ──────────────────────────────────────────────────────────────
 import { useState } from "react";
 
 
@@ -107,7 +108,7 @@ function ToggleRow({ label, checked, onChange }) {
 }
 
 
-// ─── Halaman Utama Preference Setting ────────────────────────────────────────
+// ─── Komponen Utama Preference Setting ───────────────────────────────────────
 
 export default function PreferenceSetting() {
 
@@ -122,7 +123,7 @@ export default function PreferenceSetting() {
     fullName: true,
   });
 
-  // ── Handler toggle notifikasi berdasarkan key ──
+  // ── Handler: toggle notifikasi berdasarkan key ──
   const toggle = (key) => () =>
     setNotifications((prev) => ({ ...prev, [key]: !prev[key] }));
 
@@ -173,7 +174,7 @@ export default function PreferenceSetting() {
         }
       `}</style>
 
-      {/* ── Currency & Time Zone ── */}
+      {/* ── Pilihan Currency & Time Zone ── */}
       <div className="pref-fields-grid">
         <SelectField
           label="Currency"
@@ -204,7 +205,7 @@ export default function PreferenceSetting() {
         />
       </div>
 
-      {/* ── Notifikasi ── */}
+      {/* ── Pengaturan Notifikasi ── */}
       <div style={{
         background: "#FFFFFF",
         borderRadius: 16,

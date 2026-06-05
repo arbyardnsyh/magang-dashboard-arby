@@ -1,8 +1,11 @@
+// ─── Imports: React & Aset Avatar Kontak ─────────────────────────────────────
 import { useState } from "react";
 
 import avatarLivia   from "../../assets/images/contacts/livia-bator.svg";
 import avatarRandy   from "../../assets/images/contacts/randy-press.svg";
 import avatarWorkman from "../../assets/images/contacts/workman.svg";
+
+// ─── Konstanta Data ───────────────────────────────────────────────────────────
 
 const FALLBACK_AVATAR = "https://i.pravatar.cc/80?img=";
 
@@ -11,6 +14,8 @@ const contacts = [
   { id: 2, name: "Randy Press", role: "Director",  avatar: avatarRandy,   fallback: FALLBACK_AVATAR + "12" },
   { id: 3, name: "Workman",     role: "Designer",  avatar: avatarWorkman, fallback: FALLBACK_AVATAR + "68" },
 ];
+
+// ─── CSS Injeksi: Layout & Responsive ────────────────────────────────────────
 
 const injectedStyles = `
   .qt-card {
@@ -96,7 +101,7 @@ const injectedStyles = `
     border: 1px solid #F0F4FB;
   }
 
-  /* ── Input row ── */
+  /* ── Baris input jumlah transfer ── */
   .qt-input-row {
     display: flex;
     align-items: center;
@@ -159,7 +164,7 @@ const injectedStyles = `
 
   .qt-send-btn:active { background: #0D0BB5; }
 
-  /* ── Desktop: kompakkan input & button ── */
+  /* ── Desktop: kompakkan ukuran elemen ── */
   @media (min-width: 1024px) {
     .qt-card         { padding: 22px 20px 20px; }
     .qt-contacts-row { margin-bottom: 24px !important; }
@@ -172,19 +177,21 @@ const injectedStyles = `
     .qt-send-btn     { padding: 8px 14px !important; font-size: 12px !important; gap: 5px !important; }
   }
 
-  /* Tablet */
-@media (min-width: 768px) and (max-width: 1023px) {
-  .qt-card         { padding: 20px 18px 18px; }
-  .qt-avatar       { width: 36px !important; height: 36px !important; }  /* ← lebih kecil */
-  .qt-name         { font-size: 10px !important; white-space: normal !important; } /* ← wrap */
-  .qt-role         { font-size: 9px !important; }
-  .qt-contacts-row { margin-bottom: 20px !important; }
-  .qt-chevron      { width: 32px !important; height: 32px !important; }
-  .qt-label        { font-size: 12px !important; }
-  .qt-input        { font-size: 12px !important; padding: 8px 6px 8px 12px !important; }
-  .qt-send-btn     { padding: 9px 14px !important; font-size: 12px !important; }
-}
+  /* ── Tablet: perkecil elemen agar muat dalam kolom ── */
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .qt-card         { padding: 20px 18px 18px; }
+    .qt-avatar       { width: 36px !important; height: 36px !important; }
+    .qt-name         { font-size: 10px !important; white-space: normal !important; }
+    .qt-role         { font-size: 9px !important; }
+    .qt-contacts-row { margin-bottom: 20px !important; }
+    .qt-chevron      { width: 32px !important; height: 32px !important; }
+    .qt-label        { font-size: 12px !important; }
+    .qt-input        { font-size: 12px !important; padding: 8px 6px 8px 12px !important; }
+    .qt-send-btn     { padding: 9px 14px !important; font-size: 12px !important; }
+  }
 `;
+
+// ─── Ikon SVG: Tombol Kirim & Navigasi ───────────────────────────────────────
 
 const SendIcon = () => (
   <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
@@ -199,10 +206,13 @@ const ChevronRight = () => (
   </svg>
 );
 
+// ─── Komponen Utama: QuickTransfer ────────────────────────────────────────────
+
 export default function QuickTransfer() {
   const [amount,  setAmount]  = useState("525.50");
   const [sending, setSending] = useState(false);
 
+  // Simulasi proses pengiriman selama 1.5 detik
   const handleSend = () => {
     setSending(true);
     setTimeout(() => setSending(false), 1500);
@@ -212,6 +222,7 @@ export default function QuickTransfer() {
     <div style={{ display: "flex", flexDirection: "column", minWidth: 0, height: "100%" }}>
       <style>{injectedStyles}</style>
 
+      {/* Judul seksi */}
       <h2 style={{
         fontFamily: "Inter, sans-serif",
         fontWeight: 700,
@@ -225,7 +236,7 @@ export default function QuickTransfer() {
 
       <div className="qt-card">
 
-        {/* Baris Kontak */}
+        {/* Baris daftar kontak + tombol navigasi */}
         <div className="qt-contacts-row">
           <div className="qt-contacts-list">
             {contacts.map((c) => (
@@ -250,7 +261,7 @@ export default function QuickTransfer() {
           </div>
         </div>
 
-        {/* Baris Input */}
+        {/* Baris input jumlah & tombol kirim */}
         <div className="qt-input-row">
           <span className="qt-label">Write Amount</span>
 
