@@ -104,8 +104,7 @@ const LegendItem = ({ color, label }) => (
 // ─── Komponen Utama: Weekly Activity ─────────────────────────────────────────
 export default function WeeklyActivity() {
   return (
-    // ✅ FIX: Hapus height:"100%" — biarkan tinggi ditentukan oleh konten.
-    // Ini mencegah card terpotong di mobile saat parent tidak punya tinggi eksplisit.
+    
     <div style={{ display: "flex", flexDirection: "column" }}>
 
       {/* ── Judul Section ── */}
@@ -121,9 +120,6 @@ export default function WeeklyActivity() {
       </h2>
 
       {/* ── Card Wrapper ── */}
-      {/* ✅ FIX: Ganti flex:1 ke width:"100%", dan gunakan paddingBottom agar
-               konten tidak terpotong. Chart diberi tinggi eksplisit (px) bukan
-               height:"100%" supaya ResponsiveContainer punya referensi yang valid. */}
       <div style={{
         background    : COLOR.cardBg,
         borderRadius  : "22px",
@@ -145,9 +141,6 @@ export default function WeeklyActivity() {
         </div>
 
         {/* ── Area Chart ── */}
-        {/* ✅ FIX: Beri tinggi tetap dalam px. ResponsiveContainer WAJIB punya
-                 parent dengan tinggi eksplisit — bukan "100%" yang bergantung
-                 pada flex parent yang tidak punya tinggi sendiri. */}
         <div style={{ width: "100%", height: 220 }}>
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
