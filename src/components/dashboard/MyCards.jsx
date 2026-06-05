@@ -10,19 +10,19 @@ import icCircleWhite from "../../assets/icons/cards/icon-2bulat-cardputih.svg";
 const injectedStyles = `
   .cards-row {
     display: flex;
-    gap: 16px;
+    gap: 10px;
     flex-wrap: nowrap;
   }
 
   .credit-card-wrap {
     flex: 1 1 0;
     min-width: 0;
-    height: 195px;
+    height: 170px;
     border-radius: 20px;
     overflow: hidden;
   }
 
-  /* ── Mobile: snap scroll, card aktif penuh, card berikutnya peek setengah ── */
+  /* ── Mobile: snap scroll ── */
   @media (max-width: 680px) {
     .cards-row {
       overflow-x: auto;
@@ -30,14 +30,10 @@ const injectedStyles = `
       -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
       padding-bottom: 8px;
-      /* Padding kanan agar card ke-2 peek ~setengah */
       padding-right: 16px;
     }
-    .cards-row::-webkit-scrollbar {
-      display: none;
-    }
+    .cards-row::-webkit-scrollbar { display: none; }
     .credit-card-wrap {
-      /* Lebar card = 85% container → card berikutnya peek ~15% */
       flex: 0 0 85% !important;
       scroll-snap-align: start;
     }
@@ -159,22 +155,11 @@ const styles = {
 
 // ─── Sub-Komponen: CreditCard ─────────────────────────────────────────────────
 
-/**
- * Props:
- *   - dark       {boolean}
- *   - balance    {number}
- *   - holder     {string}
- *   - validThru  {string}
- *   - cardNumber {string}
- *   - onClick    {function} — dipanggil saat card diklik (untuk scroll mobile)
- *   - cardRef    {React.Ref}
- */
 function CreditCard({ dark, balance, holder, validThru, cardNumber, onClick, cardRef }) {
   return (
     <div className="credit-card-wrap" ref={cardRef} onClick={onClick} style={{ cursor: "pointer" }}>
       <div style={styles.cardInner(dark)}>
 
-        {/* Bagian atas: saldo & ikon */}
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
           <div>
             <p style={styles.labelText(dark)}>Balance</p>
@@ -189,7 +174,6 @@ function CreditCard({ dark, balance, holder, validThru, cardNumber, onClick, car
           />
         </div>
 
-        {/* Bagian tengah: card holder & valid thru */}
         <div style={{ display: "flex", gap: "24px" }}>
           <div>
             <p style={styles.metaLabel(dark)}>Card Holder</p>
@@ -201,7 +185,6 @@ function CreditCard({ dark, balance, holder, validThru, cardNumber, onClick, car
           </div>
         </div>
 
-        {/* Bagian bawah: nomor kartu & logo */}
         <div style={styles.cardBottom(dark)}>
           <p style={styles.cardNumber(dark)}>{cardNumber}</p>
           <img
@@ -224,13 +207,9 @@ import { useRef } from "react";
 
 export default function MyCards() {
   const rowRef   = useRef(null);
-  const card0Ref = useRef(null); // kartu biru (index 0)
-  const card1Ref = useRef(null); // kartu putih (index 1)
+  const card0Ref = useRef(null);
+  const card1Ref = useRef(null);
 
-  /**
-   * Scroll row ke posisi card yang diklik.
-   * scrollIntoView dengan { inline: "start" } akan snap ke card tersebut.
-   */
   const handleCardClick = (cardRef) => {
     if (!cardRef.current) return;
     cardRef.current.scrollIntoView({
@@ -244,13 +223,11 @@ export default function MyCards() {
     <div style={styles.section}>
       <style>{injectedStyles}</style>
 
-      {/* Header */}
       <div style={styles.header}>
         <h2 style={styles.title}>My Cards</h2>
         <button style={styles.seeAll}>See All</button>
       </div>
 
-      {/* Daftar kartu */}
       <div className="cards-row" style={styles.cardsRow} ref={rowRef}>
         <CreditCard
           dark={true}

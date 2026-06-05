@@ -43,24 +43,20 @@ export default function Dashboard() {
           overflow: hidden;
         }
 
-        /* ── Tablet (768px–1023px): proporsi sama seperti desktop, lebih compact ── */
+        /* ── Tablet (768px–1023px) ── */
         @media (min-width: 768px) and (max-width: 1023px) {
           .dash-wrap { gap: 16px; }
 
-          /* Row 1: MyCards lebih lebar, RecentTransaction lebih kecil */
           .dash-row-63-37 {
             grid-template-columns: minmax(0, 1.72fr) minmax(0, 1fr);
             gap: 14px;
           }
 
-          /* Row 2: WeeklyActivity lebih lebar dari ExpenseStatistic */
-          /* Row 3: BalanceHistory lebih lebar dari QuickTransfer */
           .dash-row-37-63 {
             grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.72fr);
             gap: 14px;
           }
 
-          /* Kecilkan chart agar tidak terpotong */
           .dash-chart-wrap { min-height: 240px; }
         }
 

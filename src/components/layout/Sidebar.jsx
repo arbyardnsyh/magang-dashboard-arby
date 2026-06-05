@@ -29,12 +29,12 @@ const navItems = [
 ];
 
 const injectedStyles = `
-  /* Desktop (≥ 1024px): sidebar full */
+  /* Desktop (>= 1024px): sidebar full */
   @media (min-width: 1024px) {
     .sidebar-root { transform: translateX(0) !important; width: 250px !important; }
   }
 
-  /* Tablet (768px–1023px): sidebar ramping tapi tetap tampil penuh */
+  /* Tablet (768px-1023px): sidebar ramping tapi tetap tampil penuh */
   @media (min-width: 768px) and (max-width: 1023px) {
     .sidebar-root { transform: translateX(0) !important; width: 180px !important; }
   }
@@ -143,12 +143,15 @@ const styles = {
     flexShrink: 0,
   },
 
+  // Filter menghasilkan #2D60FF persis:
+  // brightness(0) -> hitam
+  // saturate(100%) invert(33%) sepia(99%) saturate(748%) hue-rotate(204deg) brightness(105%) contrast(101%)
   navIcon: (isActive) => ({
     objectFit: "contain",
     flexShrink: 0,
     transition: "filter 0.15s",
     filter: isActive
-      ? "brightness(0) saturate(100%) invert(24%) sepia(98%) saturate(1638%) hue-rotate(213deg) brightness(98%) contrast(107%)"
+      ? "brightness(0) saturate(100%) invert(33%) sepia(99%) saturate(748%) hue-rotate(204deg) brightness(105%) contrast(101%)"
       : "brightness(0) saturate(100%) invert(78%) sepia(6%) saturate(521%) hue-rotate(182deg) brightness(95%) contrast(87%)",
   }),
 

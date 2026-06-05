@@ -6,8 +6,7 @@ import icPaypal from "../../assets/icons/transactions/icon-paypal.svg";
 import icUser   from "../../assets/icons/transactions/icon-user.svg";
 
 // ─── Konstanta Layout ─────────────────────────────────────────────────────────
-// Tinggi panel desktop diselaraskan dengan tinggi card MyCards
-const PANEL_H = 195;
+const PANEL_H = 170;
 
 // ─── Responsive Styles ───────────────────────────────────────────────────────
 const injectedStyles = `
@@ -17,14 +16,13 @@ const injectedStyles = `
     box-shadow: 0 4px 20px rgba(0,0,0,0.05);
     height: ${PANEL_H}px;
     box-sizing: border-box;
-    padding: 12px 20px;
+    padding: 8px 20px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     overflow: hidden;
   }
 
-  /* ── Mobile: tinggi auto, lebar mengikuti kolom ── */
   @media (max-width: 680px) {
     .recent-tx-panel {
       height: auto !important;
@@ -41,7 +39,6 @@ const transactions = [
   { id: 3, title: "Jemi Wilson",           date: "21 January 2021", amount: 5400,  iconBg: "#DCFAF8", iconColor: "#16DBCC", icon: "user",   iconSrc: icUser   },
 ];
 
-// ─── Ikon SVG: Kartu (Card) ───────────────────────────────────────────────────
 const CardIcon = ({ color }) => (
   <svg width="22" height="18" viewBox="0 0 28 22" fill="none">
     <rect x="1" y="1" width="26" height="18" rx="4" stroke={color} strokeWidth="1.8"/>
@@ -50,7 +47,6 @@ const CardIcon = ({ color }) => (
   </svg>
 );
 
-// ─── Ikon SVG: PayPal ─────────────────────────────────────────────────────────
 const PaypalIcon = ({ color }) => (
   <svg width="18" height="22" viewBox="0 0 20 28" fill="none">
     <path d="M16 3C17.2 4.8 17.2 7.2 15.5 9C13.8 10.8 11 11 8.8 11H7L5.2 20H2L5.5 2H12C14.5 2 15.2 1.5 16 3Z" fill={color}/>
@@ -58,7 +54,6 @@ const PaypalIcon = ({ color }) => (
   </svg>
 );
 
-// ─── Ikon SVG: Pengguna (User) ────────────────────────────────────────────────
 const UserIcon = ({ color }) => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
     <circle cx="12" cy="8" r="4" fill={color}/>
@@ -66,11 +61,8 @@ const UserIcon = ({ color }) => (
   </svg>
 );
 
-// ─── Sub-Komponen: Ikon Transaksi (dengan fallback SVG) ───────────────────────
 function TxIcon({ tx }) {
   const [err, setErr] = useState(false);
-
-  // Coba tampilkan ikon dari file aset terlebih dahulu
   if (tx.iconSrc && !err) {
     return (
       <img src={tx.iconSrc} alt="" width={24} height={24}
@@ -79,21 +71,17 @@ function TxIcon({ tx }) {
       />
     );
   }
-
-  // Fallback ke ikon SVG inline jika aset gagal dimuat
   if (tx.icon === "card")   return <CardIcon   color={tx.iconColor} />;
   if (tx.icon === "paypal") return <PaypalIcon color={tx.iconColor} />;
   return <UserIcon color={tx.iconColor} />;
 }
 
-// ─── Komponen Utama: RecentTransactions ──────────────────────────────────────
 export default function RecentTransactions() {
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
 
       <style>{injectedStyles}</style>
 
-      {/* Judul Section — tinggi diselaraskan dengan header MyCards */}
       <h2 style={{
         fontFamily: "Inter, sans-serif", fontWeight: 700,
         fontSize: "18px", color: "#343C6A",
@@ -102,7 +90,6 @@ export default function RecentTransactions() {
         Recent Transaction
       </h2>
 
-      {/* Panel Daftar Transaksi */}
       <div className="recent-tx-panel">
         {transactions.map((tx, i) => (
           <div key={tx.id} style={{
@@ -110,14 +97,13 @@ export default function RecentTransactions() {
             alignItems: "center",
             gap: "12px",
             flex: 1,
-            padding: "10px 0",
+            padding: "6px 0",
             borderBottom: i < transactions.length - 1
               ? "1px solid #F5F7FA" : "none",
           }}>
 
-            {/* Lingkaran Ikon Transaksi */}
             <div style={{
-              width: "42px", height: "42px",
+              width: "38px", height: "38px",
               borderRadius: "50%",
               background: tx.iconBg,
               flexShrink: 0,
@@ -126,7 +112,6 @@ export default function RecentTransactions() {
               <TxIcon tx={tx} />
             </div>
 
-            {/* Info: Judul & Tanggal */}
             <div style={{ flex: 1, minWidth: 0 }}>
               <p style={{
                 fontFamily: "Inter, sans-serif",
@@ -141,7 +126,6 @@ export default function RecentTransactions() {
               }}>{tx.date}</p>
             </div>
 
-            {/* Nominal: merah jika debit, hijau jika kredit */}
             <p style={{
               fontFamily: "Inter, sans-serif",
               fontSize: "13px", fontWeight: 700, margin: 0,

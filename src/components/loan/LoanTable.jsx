@@ -31,16 +31,21 @@ const injectedStyles = `
   .loantable-wrap  { overflow-x: auto; -webkit-overflow-scrolling: touch; }
   .loantable-inner { width: 100%; border-collapse: collapse; min-width: 620px; }
 
-  /* Mobile only (≤ 767px): sembunyikan kolom & compact style */
+  /* Sembunyikan baris label Total di desktop */
+  .total-label-row { display: none; }
+
   @media (max-width: 767px) {
     .col-hide-mobile  { display: none !important; }
     .loantable-inner  { min-width: unset !important; }
     .loantable-wrap   { overflow-x: visible !important; }
     .lt-th            { font-size: 12px !important; padding-bottom: 10px !important; }
     .lt-td            { font-size: 13px !important; padding: 11px 10px 11px 0 !important; }
-    .lt-td-total      { padding: 14px 10px 4px 0 !important; font-size: 13px !important; }
+    .lt-td-total      { padding: 6px 10px 4px 0 !important; font-size: 13px !important; }
     .lt-repay-btn     { padding: 5px 14px !important; font-size: 12px !important; }
     .loantable-card   { padding: 18px 14px 14px !important; border-radius: 18px !important; }
+
+    /* Tampilkan baris label Total di mobile */
+    .total-label-row  { display: table-row !important; }
   }
 `;
 
@@ -102,6 +107,7 @@ const styles = {
     fontSize: "14px",
     color: "#FF4B4A",
     fontWeight: 600,
+    lineHeight: 1.2,
   },
   repayButton: (isActive) => ({
     padding: "6px 22px",
@@ -187,14 +193,29 @@ export default function LoanTable() {
                 </tr>
               ))}
 
-              {/* Baris total */}
+              {/* Baris label "Total" — hanya tampil di mobile */}
+              <tr className="total-label-row">
+                <td colSpan={3} style={{
+                  paddingTop: "18px",
+                  paddingBottom: "2px",
+                  fontSize: "14px",
+                  fontWeight: 600,
+                  color: "#FF4B4A",
+                }}>Total</td>
+                <td colSpan={4} />
+              </tr>
+
+              {/* Baris nominal total */}
               <tr>
+                {/* Desktop: kolom "Total" label tersendiri */}
                 <td className="lt-td-total col-hide-mobile" style={styles.tdTotal}>Total</td>
-                <td className="lt-td-total" style={styles.tdTotalNumeric}>
-                  <span className="total-mobile-label" style={styles.totalMobileLabel}>Total&nbsp;</span>
-                  {TOTAL.loanMoney}
-                </td>
+
+                {/* Loan Money */}
+                <td className="lt-td-total" style={styles.tdTotalNumeric}>{TOTAL.loanMoney}</td>
+
+                {/* Left to Repay */}
                 <td className="lt-td-total" style={styles.tdTotalNumeric}>{TOTAL.leftToRepay}</td>
+
                 <td className="col-hide-mobile" colSpan={2} />
                 <td className="lt-td-total col-hide-mobile" style={styles.tdTotalNumeric}>{TOTAL.installment}</td>
                 <td />

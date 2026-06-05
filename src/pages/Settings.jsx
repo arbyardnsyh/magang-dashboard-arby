@@ -26,6 +26,17 @@ export default function Settings() {
       overflow: "hidden",
     }}>
 
+      {/* ── Responsive Styles ── */}
+      <style>{`
+        @media (max-width: 767px) {
+          .settings-tab-btn {
+            white-space: nowrap;
+            padding: 16px 12px !important;
+            font-size: 13px !important;
+          }
+        }
+      `}</style>
+
       {/* ── Navigasi Tab ─────────────────────────────────────────────────── */}
       <div style={{
         display: "flex",
@@ -35,6 +46,7 @@ export default function Settings() {
         {tabs.map((tab) => (
           <button
             key={tab.id}
+            className="settings-tab-btn"
             onClick={() => setActiveTab(tab.id)}
             style={{
               padding: "20px 24px",
