@@ -20,12 +20,11 @@ export default function Dashboard() {
           overflow-x: hidden;
         }
 
-        /* ── Desktop (≥ 1024px): proporsi asli ── */
         .dash-row-63-37 {
           display: grid;
           grid-template-columns: minmax(0, 1.72fr) minmax(0, 1fr);
           gap: 20px;
-          align-items: stretch;
+          align-items: start;
         }
 
         .dash-row-37-63 {
@@ -35,58 +34,71 @@ export default function Dashboard() {
           align-items: stretch;
         }
 
-        .dash-row-63-37 > *,
         .dash-row-37-63 > * {
+          min-width: 0;
           display: flex;
           flex-direction: column;
+        }
+
+        .dash-row-63-37-stretch {
+          display: grid;
+          grid-template-columns: minmax(0, 1.72fr) minmax(0, 1fr);
+          gap: 20px;
+          align-items: stretch;
+        }
+
+        .dash-row-63-37-stretch > * {
           min-width: 0;
-          overflow: hidden;
+          display: flex;
+          flex-direction: column;
         }
 
-        /* ── Tablet (768px–1023px) ── */
+        .dash-row-63-37 > *,
+        .dash-row-37-63 > * {
+          min-width: 0;
+        }
+
+        /* Tablet */
         @media (min-width: 768px) and (max-width: 1023px) {
-          .dash-wrap { gap: 16px; }
+          .dash-wrap { gap: 14px; }
 
+          /* Row 1: MyCards fleksibel, RecentTransactions fixed 231px */
           .dash-row-63-37 {
-            grid-template-columns: minmax(0, 1.72fr) minmax(0, 1fr);
-            gap: 14px;
+            grid-template-columns: minmax(0, 1fr) 231px;
+            gap: 12px;
           }
 
-          .dash-row-37-63 {
-            grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.72fr);
-            gap: 14px;
-          }
-
-          .dash-chart-wrap { min-height: 240px; }
+          .dash-row-37-63,
+          .dash-row-63-37-stretch { gap: 12px; }
         }
 
-        /* ── Mobile (< 768px): stack vertikal ── */
+        /* Mobile */
         @media (max-width: 767px) {
           .dash-wrap { gap: 16px; }
           .dash-row-63-37,
-          .dash-row-37-63 {
+          .dash-row-37-63,
+          .dash-row-63-37-stretch {
             grid-template-columns: 1fr;
             gap: 16px;
           }
-          .dash-chart-wrap { min-height: 280px; }
         }
       `}</style>
 
       <div className="dash-wrap">
 
-        {/* Row 1: MyCards (lebar) + RecentTransactions (sempit) */}
+        {/* Row 1: MyCards + RecentTransactions */}
         <div className="dash-row-63-37">
           <MyCards />
           <RecentTransactions />
         </div>
 
-        {/* Row 2: WeeklyActivity (lebar) + ExpenseStatistics (sempit) */}
-        <div className="dash-row-63-37">
-          <div className="dash-chart-wrap"><WeeklyActivity /></div>
-          <div className="dash-chart-wrap"><ExpenseStatistics /></div>
+        {/* Row 2: WeeklyActivity + ExpenseStatistics */}
+        <div className="dash-row-63-37-stretch">
+          <WeeklyActivity />
+          <ExpenseStatistics />
         </div>
 
-        {/* Row 3: QuickTransfer (sempit) + BalanceHistory (lebar) */}
+        {/* Row 3: QuickTransfer + BalanceHistory */}
         <div className="dash-row-37-63">
           <QuickTransfer />
           <BalanceHistory />

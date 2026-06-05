@@ -40,18 +40,18 @@ const injectedStyles = `
     min-width: 0;
   }
 
-  /* Tablet (768px–1023px): 4 kolom tapi lebih compact */
-  @media (min-width: 768px) and (max-width: 1023px) {
-    .loan-stat-row {
-      gap: 12px;
-    }
-    .loan-stat-card  { padding: 14px 10px !important; gap: 10px !important; }
-    .loan-icon-wrap  { width: 38px !important; height: 38px !important; }
-    .loan-icon-img   { width: 20px !important; height: 20px !important; }
-    .loan-label      { font-size: 9px !important; }
-    .loan-value      { font-size: 13px !important; }
-    .loan-value-sm   { font-size: 9px !important; }
+  /* Tablet (768px–1023px): 4 kolom lebih compact */
+@media (min-width: 768px) and (max-width: 1025px) {
+  .loan-stat-row {
+    gap: 10px;
   }
+  .loan-stat-card  { padding: 22px 20px !important; gap: 8px !important; }
+  .loan-icon-wrap  { width: 44px !important; height: 44px !important; }
+  .loan-icon-img   { width: 20px !important; height: 20px !important; }
+  .loan-label      { font-size: 9px !important; }
+  .loan-value      { font-size: 14px !important; }
+  .loan-value-sm   { font-size: 10px !important; }
+}
 
   /* Mobile (≤ 767px): snap scroll horizontal */
   @media (max-width: 767px) {

@@ -1,12 +1,10 @@
 import balanceImg from "../../assets/images/statistics/chart-BalanceHistory.png";
 
-// ─── Styles ───────────────────────────────────────────────────────────────────
-
 const styles = {
   wrapper: {
     display: "flex",
     flexDirection: "column",
-    height: "100%",
+    height: "100%",        // ikuti tinggi kolom dari grid stretch
   },
 
   title: {
@@ -22,10 +20,10 @@ const styles = {
     background: "#FFFFFF",
     borderRadius: "22px",
     boxShadow: "0 4px 20px rgba(0,0,0,0.05)",
-    flex: 1,
     position: "relative",
     overflow: "hidden",
-    minHeight: "220px", // mencegah card kolaps di layar kecil
+    flex: 1,               // isi sisa tinggi wrapper
+    minHeight: "150px",    // fallback kalau grid belum stretch
     width: "100%",
   },
 
@@ -40,19 +38,12 @@ const styles = {
   },
 };
 
-// ─── Komponen ─────────────────────────────────────────────────────────────────
-
 export default function BalanceHistory() {
   return (
     <div style={styles.wrapper}>
       <h2 style={styles.title}>Balance History</h2>
-
       <div style={styles.card}>
-        <img
-          src={balanceImg}
-          alt="Balance History"
-          style={styles.image}
-        />
+        <img src={balanceImg} alt="Balance History" style={styles.image} />
       </div>
     </div>
   );

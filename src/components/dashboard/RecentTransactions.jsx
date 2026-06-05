@@ -5,16 +5,13 @@ import icCard   from "../../assets/icons/transactions/icon-card.svg";
 import icPaypal from "../../assets/icons/transactions/icon-paypal.svg";
 import icUser   from "../../assets/icons/transactions/icon-user.svg";
 
-// ─── Konstanta Layout ─────────────────────────────────────────────────────────
-const PANEL_H = 170;
-
 // ─── Responsive Styles ───────────────────────────────────────────────────────
 const injectedStyles = `
   .recent-tx-panel {
     background: #FFFFFF;
     border-radius: 20px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-    height: ${PANEL_H}px;
+    height: 170px;
     box-sizing: border-box;
     padding: 8px 20px;
     display: flex;
@@ -23,6 +20,69 @@ const injectedStyles = `
     overflow: hidden;
   }
 
+  .tx-icon-wrap {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .tx-title {
+    font-family: Inter, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #343C6A;
+    margin: 0 0 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .tx-date {
+    font-family: Inter, sans-serif;
+    font-size: 11px;
+    color: #718EBF;
+    margin: 0;
+    white-space: nowrap;
+  }
+
+  .tx-amount {
+    font-family: Inter, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    margin: 0;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* Tablet: scale down isi supaya muat di height 148px */
+  @media (min-width: 768px) and (max-width: 1023px) {
+  .recent-tx-panel {
+    height: 148px;
+    padding: 6px 14px;
+    width: 231px !important;     /* ← tambah ini */
+    min-width: 231px !important;
+  }
+  /* sisanya tetap sama */
+}
+    .tx-icon-wrap {
+      width: 30px;
+      height: 30px;
+    }
+    .tx-icon-wrap img,
+    .tx-icon-wrap svg {
+      width: 16px !important;
+      height: 16px !important;
+    }
+    .tx-title  { font-size: 11px !important; margin-bottom: 1px !important; }
+    .tx-date   { font-size: 10px !important; }
+    .tx-amount { font-size: 11px !important; }
+  }
+
+  /* Mobile */
   @media (max-width: 680px) {
     .recent-tx-panel {
       height: auto !important;
@@ -97,41 +157,21 @@ export default function RecentTransactions() {
             alignItems: "center",
             gap: "12px",
             flex: 1,
-            padding: "6px 0",
+            padding: "4px 0",
             borderBottom: i < transactions.length - 1
               ? "1px solid #F5F7FA" : "none",
           }}>
 
-            <div style={{
-              width: "38px", height: "38px",
-              borderRadius: "50%",
-              background: tx.iconBg,
-              flexShrink: 0,
-              display: "flex", alignItems: "center", justifyContent: "center",
-            }}>
+            <div className="tx-icon-wrap" style={{ background: tx.iconBg }}>
               <TxIcon tx={tx} />
             </div>
 
             <div style={{ flex: 1, minWidth: 0 }}>
-              <p style={{
-                fontFamily: "Inter, sans-serif",
-                fontSize: "13px", fontWeight: 600, color: "#343C6A",
-                margin: "0 0 3px",
-                whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
-              }}>{tx.title}</p>
-              <p style={{
-                fontFamily: "Inter, sans-serif",
-                fontSize: "11px", color: "#718EBF", margin: 0,
-                whiteSpace: "nowrap",
-              }}>{tx.date}</p>
+              <p className="tx-title">{tx.title}</p>
+              <p className="tx-date">{tx.date}</p>
             </div>
 
-            <p style={{
-              fontFamily: "Inter, sans-serif",
-              fontSize: "13px", fontWeight: 700, margin: 0,
-              color: tx.amount < 0 ? "#FF4B4A" : "#41D4A8",
-              whiteSpace: "nowrap", flexShrink: 0,
-            }}>
+            <p className="tx-amount" style={{ color: tx.amount < 0 ? "#FF4B4A" : "#41D4A8" }}>
               {tx.amount < 0 ? "-" : "+"}${Math.abs(tx.amount).toLocaleString()}
             </p>
           </div>
