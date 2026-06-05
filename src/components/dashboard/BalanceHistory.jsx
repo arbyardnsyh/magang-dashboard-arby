@@ -1,4 +1,4 @@
-import balanceImg from "../../assets/images/statistics/BalanceHistory-image.svg";
+import balanceImg from "../../assets/images/statistics/chart-BalanceHistory.png";
 
 // ─── Styles ───────────────────────────────────────────────────────────────────
 
